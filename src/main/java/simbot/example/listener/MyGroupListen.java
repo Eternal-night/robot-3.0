@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@Slf4j
 public class MyGroupListen {
 
     private static final Map<String, String> MAP = new ConcurrentHashMap<>();
