@@ -14,6 +14,7 @@ import love.forte.simbot.resources.URLResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import simbot.example.service.DrawService;
+import simbot.example.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,8 +30,7 @@ public class DrawListen {
     private DrawService drawService;
 
     @Listener
-    @Filter(value = "咒文", matchType = MatchType.TEXT_STARTS_WITH,
-    target = @TargetFilter(authors = {"982319439","1211902538","289432980"}))
+    @Filter(value = "#咒文", matchType = MatchType.TEXT_STARTS_WITH)
     @ContentTrim
     public void onGroupMsgAdminTwelve(GroupMessageEvent event) throws IOException {
         String flag = MAP.get("flag");
@@ -50,21 +50,29 @@ public class DrawListen {
     private void mapping(GroupMessageEvent event) throws IOException {
         String massageText = event.getMessageContent().getPlainText();
 
-        String[] split = massageText.split("画图");
+        String[] split = massageText.split("#咒文");
 
         String name = split[split.length - 1];
 
         String trimName = name.trim();
 
-        if (!trimName.isEmpty()) {
-            event.getSource().sendBlocking("咒文咏唱中，大约需要30秒╮(￣▽￣)╭");
-            InputStream inputStream = drawService.drafting(trimName);
-            MessagesBuilder builder = new MessagesBuilder();
-            Bot bot = event.getBot();
-            StandardResource resource = Resource.of(inputStream);
-            builder.text("超位魔法 涩图召唤(*>∀<)ﾉ))★ \n").image(bot, resource);
-            event.getSource().sendBlocking(builder.build());
+        if (!StringUtils.isEmpty(trimName)){
+            if (trimName.split(",").length>=70) {
+                event.getSource().sendBlocking("不要使用禁咒啊魂淡(╬￣皿￣)=○");
+            }else {
+                if (!trimName.isEmpty()) {
+                    event.getSource().sendBlocking("咒文咏唱中╮(￣▽￣)╭");
+                    InputStream inputStream = drawService.drafting(trimName);
+                    MessagesBuilder builder = new MessagesBuilder();
+                    Bot bot = event.getBot();
+                    StandardResource resource = Resource.of(inputStream);
+                    builder.text("超位魔法 涩图召唤(*>∀<)ﾉ))★ \n").image(bot, resource);
+                    event.getSource().sendBlocking(builder.build());
+                }
+            }
         }
+
+
     }
 
 

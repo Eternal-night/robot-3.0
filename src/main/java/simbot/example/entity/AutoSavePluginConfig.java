@@ -120,10 +120,10 @@ public class AutoSavePluginConfig implements Serializable {
     public Boolean seedEnableExtras = false;
 
     //高度
-    public Integer height = 448;
+    public Integer height = 512;
 
     //高度
-    public Integer width = 320;
+    public Integer width = 448;
 
 
     //Highres.fix 渲染两次
