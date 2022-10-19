@@ -66,7 +66,7 @@ public class DrawListen {
                     MessagesBuilder builder = new MessagesBuilder();
                     Bot bot = event.getBot();
                     StandardResource resource = Resource.of(inputStream);
-                    builder.text("超位魔法 涩图召唤(*>∀<)ﾉ))★ \n").image(bot, resource);
+                    builder.text("魔法施展成功啦(*>∀<)ﾉ))★ \n").image(bot, resource);
                     event.getSource().sendBlocking(builder.build());
                 }
             }
