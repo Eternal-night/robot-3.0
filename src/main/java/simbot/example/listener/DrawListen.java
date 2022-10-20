@@ -7,6 +7,7 @@ import love.forte.simboot.annotation.TargetFilter;
 import love.forte.simboot.filter.MatchType;
 import love.forte.simbot.bot.Bot;
 import love.forte.simbot.event.GroupMessageEvent;
+import love.forte.simbot.message.MessageReceipt;
 import love.forte.simbot.message.MessagesBuilder;
 import love.forte.simbot.resources.Resource;
 import love.forte.simbot.resources.StandardResource;
@@ -32,22 +33,31 @@ public class DrawListen {
     @Listener
     @Filter(value = "#咒文", matchType = MatchType.TEXT_STARTS_WITH)
     @ContentTrim
-    public void onGroupMsgAdminTwelve(GroupMessageEvent event) throws IOException {
+    public void onGroupMsgAdminTwelve(GroupMessageEvent event) throws IOException, InterruptedException {
         String flag = MAP.get("flag");
         if (flag == null) {
             MAP.put("flag", "1");
-            mapping(event);
+            MessageReceipt mapping = mapping(event);
             MAP.put("flag","2");
+            if (mapping!=null){
+                Thread.sleep(12000);
+                mapping.deleteBlocking();
+            }
         }else if ("1".equals(flag)){
             event.getSource().sendBlocking("不要打断我咏唱咒文啊魂淡(╬￣皿￣)=○");
         }else if ("2".equals(flag)){
             MAP.put("flag", "1");
-            mapping(event);
+            MessageReceipt mapping = mapping(event);
             MAP.put("flag","2");
+
+            if (mapping!=null){
+                Thread.sleep(12000);
+                mapping.deleteBlocking();
+            }
         }
     }
 
-    private void mapping(GroupMessageEvent event) throws IOException {
+    private MessageReceipt mapping(GroupMessageEvent event) throws IOException {
         String massageText = event.getMessageContent().getPlainText();
 
         String[] split = massageText.split("#咒文");
@@ -64,14 +74,14 @@ public class DrawListen {
                     event.getSource().sendBlocking("咒文咏唱中╮(￣▽￣)╭");
                     InputStream inputStream = drawService.drafting(trimName);
                     MessagesBuilder builder = new MessagesBuilder();
-                    Bot bot = event.getBot();
                     StandardResource resource = Resource.of(inputStream);
-                    builder.text("魔法施展成功啦(*>∀<)ﾉ))★ \n").image(bot, resource);
-                    event.getSource().sendBlocking(builder.build());
+                    builder.text("魔法施展成功啦(*>∀<)ﾉ))★ \n").image(resource);
+                    return event.getSource().sendBlocking(builder.build());
                 }
             }
         }
 
+        return null;
 
     }
 
