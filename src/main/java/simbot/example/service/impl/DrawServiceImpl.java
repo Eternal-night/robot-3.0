@@ -4,11 +4,15 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import simbot.example.entity.AutoSavePluginConfig;
 import simbot.example.entity.PostData;
+import simbot.example.entity.Tags;
 import simbot.example.service.DrawService;
+import simbot.example.service.TagsService;
 
+import javax.xml.ws.soap.Addressing;
 import java.io.*;
 import java.util.Base64;
 import java.util.Random;
@@ -20,8 +24,6 @@ import java.util.concurrent.TimeUnit;
 public class DrawServiceImpl implements DrawService {
 
     private static final String allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-
 
     @Override
     public InputStream drafting(String keyWord) {

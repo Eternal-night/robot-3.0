@@ -1,9 +1,6 @@
 package simbot.example.listener;
 
-import love.forte.simboot.annotation.ContentTrim;
-import love.forte.simboot.annotation.Filter;
-import love.forte.simboot.annotation.Listener;
-import love.forte.simboot.annotation.TargetFilter;
+import love.forte.simboot.annotation.*;
 import love.forte.simboot.filter.MatchType;
 import love.forte.simbot.bot.Bot;
 import love.forte.simbot.event.GroupMessageEvent;
@@ -15,73 +12,69 @@ import love.forte.simbot.resources.URLResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import simbot.example.service.DrawService;
+import simbot.example.service.TagsService;
 import simbot.example.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class DrawListen {
 
-    private static final Map<String, String> MAP = new ConcurrentHashMap<>();
+    private static Integer FALG = 2;
+
+    private static Boolean TRANSLATE = true;
     @Autowired
     private DrawService drawService;
+    @Autowired
+    private TagsService tagsService;
 
     @Listener
-    @Filter(value = "#咒文", matchType = MatchType.TEXT_STARTS_WITH)
+    @Filter(value = "#咒文{{tags}}", matchType = MatchType.REGEX_CONTAINS)
     @ContentTrim
-    public void onGroupMsgAdminTwelve(GroupMessageEvent event) throws IOException, InterruptedException {
-        String flag = MAP.get("flag");
-        if (flag == null) {
-            MAP.put("flag", "1");
-            MessageReceipt mapping = mapping(event);
-            MAP.put("flag","2");
-            if (mapping!=null){
-                Thread.sleep(12000);
-                mapping.deleteBlocking();
-            }
-        }else if ("1".equals(flag)){
-            event.getSource().sendBlocking("不要打断我咏唱咒文啊魂淡(╬￣皿￣)=○");
-        }else if ("2".equals(flag)){
-            MAP.put("flag", "1");
-            MessageReceipt mapping = mapping(event);
-            MAP.put("flag","2");
+    public void onGroupMsgAdminTwelve(GroupMessageEvent event, @FilterValue("tags") String tags) throws IOException, InterruptedException {
 
-            if (mapping!=null){
-                Thread.sleep(12000);
-                mapping.deleteBlocking();
+        if (FALG == 1) {
+            event.getSource().sendBlocking("不要打断我咏唱咒文啊魂淡(╬￣皿￣)=○");
+        } else if (FALG == 2) {
+            FALG = 1;
+            if (TRANSLATE) {
+                String replaceAll = tags.replaceAll("，", ",");
+                String[] tagArr = replaceAll.split(",");
+
+                for (String tag : tagArr) {
+                    String keyWord = tagsService.tags(tag);
+                    if (keyWord != null && !keyWord.equals("")) {
+                        tag = keyWord;
+                    }
+                }
+                tags = Arrays.toString(tagArr);
             }
+            mapping(event, tags);
+            FALG = 2;
+        }else if (FALG == 3){
+            event.getSource().sendBlocking("我在等CD，你在等什么？(▼皿▼#)");
         }
     }
 
-    private MessageReceipt mapping(GroupMessageEvent event) throws IOException {
-        String massageText = event.getMessageContent().getPlainText();
+    private void mapping(GroupMessageEvent event, String tags) throws IOException, InterruptedException {
 
-        String[] split = massageText.split("#咒文");
-
-        String name = split[split.length - 1];
-
-        String trimName = name.trim();
-
-        if (!StringUtils.isEmpty(trimName)){
-            if (trimName.split(",").length>=70) {
-                event.getSource().sendBlocking("不要使用禁咒啊魂淡(╬￣皿￣)=○");
-            }else {
-                if (!trimName.isEmpty()) {
-                    event.getSource().sendBlocking("咒文咏唱中╮(￣▽￣)╭");
-                    InputStream inputStream = drawService.drafting(trimName);
-                    MessagesBuilder builder = new MessagesBuilder();
-                    StandardResource resource = Resource.of(inputStream);
-                    builder.text("魔法施展成功啦(*>∀<)ﾉ))★ \n").image(resource);
-                    return event.getSource().sendBlocking(builder.build());
-                }
-            }
+        if (!StringUtils.isEmpty(tags)) {
+            event.getSource().sendBlocking("咒文咏唱中╮(￣▽￣)╭");
+            InputStream inputStream = drawService.drafting(tags);
+            MessagesBuilder builder = new MessagesBuilder();
+            StandardResource resource = Resource.of(inputStream);
+            builder.text("魔法施展成功啦(*>∀<)ﾉ))★ \n").image(resource);
+            MessageReceipt messageReceipt = event.getSource().sendBlocking(builder.build());
+            FALG = 3;
+            Thread.sleep(12000);
+            messageReceipt.deleteBlocking();
         }
 
-        return null;
 
     }
 
