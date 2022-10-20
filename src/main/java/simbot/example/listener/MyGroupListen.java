@@ -157,7 +157,7 @@ public class MyGroupListen {
         }
     }
 
-    @Listener
+//    @Listener
     @Filter(value = "刻刻帝 十一之弹", matchType = MatchType.TEXT_EQUALS, target =
     @TargetFilter(authors = {"982319439"}))
     @ContentTrim

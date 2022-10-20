@@ -7,8 +7,8 @@ import lombok.Data;
 public class Tags {
     @TableField("id")
     private Integer id;
-    @TableField("tagname")
-    private String tagname;
+    @TableField("tag_name")
+    private String tagName;
     @TableField("chinese")
     private String chinese;
 
