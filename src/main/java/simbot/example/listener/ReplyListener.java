@@ -27,8 +27,8 @@ public class ReplyListener {
     private final ReplyService replyService;
 
 
-    @Listener
-    @Filter(value = "刻刻帝 十二之弹", matchType = MatchType.TEXT_EQUALS, target =
+//    @Listener
+    @Filter(value = "刻刻帝", matchType = MatchType.TEXT_EQUALS, target =
     @TargetFilter(authors = {"982319439"}))
     @ContentTrim
     public void onGroupMsgAdminTwelve(GroupMessageEvent event) throws IOException {

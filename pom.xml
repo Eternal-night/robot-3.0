@@ -15,8 +15,8 @@
     <description>robot</description>
     <properties>
         <java.version>1.8</java.version>
-        <simbot.version>3.0.0.preview.8.0</simbot.version>
-        <simbot.mirai.version>3.0.0.0.preview.2.0</simbot.mirai.version>
+        <simbot.version>3.0.0-beta.2</simbot.version>
+        <simbot.mirai.version>v3.0.0.0-beta-M3</simbot.mirai.version>
         <simbot.khl.version>3.0.0.0.preview.3.0</simbot.khl.version>
         <okhttp.version>4.9.3</okhttp.version>
         <jsoup.version>1.12.1</jsoup.version>
@@ -34,13 +34,13 @@
         <dependency>
             <groupId>love.forte.simbot.boot</groupId>
             <artifactId>simboot-core-spring-boot-starter</artifactId>
-            <version>${simbot.version}</version>
+            <version>3.0.0-beta.2</version>
         </dependency>
 
         <dependency>
             <groupId>love.forte.simbot.component</groupId>
             <artifactId>simbot-component-mirai-boot</artifactId>
-            <version>${simbot.mirai.version}</version>
+            <version>3.0.0.0-beta-M3</version>
         </dependency>
 
         <dependency>

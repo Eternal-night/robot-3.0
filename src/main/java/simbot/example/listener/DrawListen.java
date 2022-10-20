@@ -5,7 +5,7 @@ import love.forte.simboot.annotation.Filter;
 import love.forte.simboot.annotation.Listener;
 import love.forte.simboot.annotation.TargetFilter;
 import love.forte.simboot.filter.MatchType;
-import love.forte.simbot.Bot;
+import love.forte.simbot.bot.Bot;
 import love.forte.simbot.event.GroupMessageEvent;
 import love.forte.simbot.message.MessagesBuilder;
 import love.forte.simbot.resources.Resource;
