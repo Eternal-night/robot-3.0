@@ -94,7 +94,7 @@ public class DrawListen {
             builder.text("魔法施展成功啦(*>∀<)ﾉ))★ \n").image(resource).at(author.getId());
             MessageReceipt messageReceipt = event.getSource().sendBlocking(builder.build());
             FALG = 3;
-            Thread.sleep(15000);
+            Thread.sleep(10000);
             messageReceipt.deleteBlocking();
         }
 
