@@ -51,6 +51,34 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
         return tag;
     }
 
+    @Override
+    public List<Tags> findTags(String tags) {
+        String trim = StringUtils.trim(tags);
+        if (StringUtils.isEmpty(trim)) {
+            return null;
+        }
+
+        String replaceAll = trim.replaceAll("，", ",");
+
+        String[] split = replaceAll.split(",");
+
+        List<Tags> tagList = new ArrayList<>();
+
+        for (String tag : split) {
+            if (isChinese(tag)) {
+                tagList.addAll(getTAGS().stream().filter(n -> n.getChinese().contains(tags)).collect(Collectors.toList()));
+            }else {
+                tagList.addAll(getTAGS().stream().filter(n -> n.getTagName().contains(tags)).collect(Collectors.toList()));
+            }
+        }
+
+        if (tagList.isEmpty()) {
+         return tagList;
+        }
+
+        return tagList.stream().distinct().collect(Collectors.toList());
+    }
+
 
     public List<Tags> getTAGS() {
         if (TAGS.isEmpty()) {

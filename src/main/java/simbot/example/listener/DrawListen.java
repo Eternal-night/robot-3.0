@@ -10,12 +10,14 @@ import love.forte.simbot.resources.Resource;
 import love.forte.simbot.resources.StandardResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import simbot.example.entity.Tags;
 import simbot.example.service.DrawService;
 import simbot.example.service.TagsService;
 import simbot.example.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +32,7 @@ public class DrawListen {
     @Listener
     @Filter(value = "#咒文", matchType = MatchType.TEXT_STARTS_WITH)
     @ContentTrim
-    public void onGroupMsgMapping(GroupMessageEvent event) throws IOException, InterruptedException {
+    public void onGroupMsgMapping(GroupMessageEvent event) throws IOException {
 
         if (FALG == 1) {
             event.getSource().sendBlocking("不要打断我咏唱咒文啊魂淡(╬￣皿￣)=○");
@@ -59,6 +61,25 @@ public class DrawListen {
             }
             FALG = 2;
         }
+    }
+    @Listener
+    @Filter(value = "#查询咒文{{tags}}", matchType = MatchType.REGEX_CONTAINS)
+    @ContentTrim
+    public void onGroupMsgEntry(GroupMessageEvent event,@FilterValue("tags") String tags){
+        List<Tags> tagsList = tagsService.findTags(tags);
+        if (tagsList.isEmpty()) {
+            event.getSource().sendBlocking("没有查询到相关咒文呢(」＞＜)」");
+        }else {
+            MessagesBuilder builder = new MessagesBuilder();
+            builder.text("查到咯(*´ﾟ∀ﾟ｀)ﾉ "+"\n");
+            for (Tags tag : tagsList) {
+                builder.text(tag.getTagName()+":【"+tag.getChinese()+"】\n");
+            }
+            event.getSource().sendBlocking(builder.build());
+        }
+
+
+
     }
 
     private void mapping(GroupMessageEvent event, String tags) throws IOException {

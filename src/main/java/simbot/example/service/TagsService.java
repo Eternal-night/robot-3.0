@@ -1,5 +1,9 @@
 package simbot.example.service;
 
+import simbot.example.entity.Tags;
+
+import java.util.List;
+
 public interface TagsService {
 
     /**
@@ -9,5 +13,8 @@ public interface TagsService {
      * @return 回复语句，或null。
      */
     String tags(String chinese);
+
+
+    List<Tags> findTags(String tags);
 
 }
