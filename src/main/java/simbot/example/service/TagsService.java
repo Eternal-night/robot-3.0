@@ -1,7 +1,5 @@
 package simbot.example.service;
 
-import org.springframework.lang.Nullable;
-
 public interface TagsService {
 
     /**

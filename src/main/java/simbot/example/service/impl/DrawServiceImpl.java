@@ -4,15 +4,11 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import simbot.example.entity.AutoSavePluginConfig;
 import simbot.example.entity.PostData;
-import simbot.example.entity.Tags;
 import simbot.example.service.DrawService;
-import simbot.example.service.TagsService;
 
-import javax.xml.ws.soap.Addressing;
 import java.io.*;
 import java.util.Base64;
 import java.util.Random;
@@ -25,9 +21,15 @@ public class DrawServiceImpl implements DrawService {
 
     private static final String allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    /**
+     * @description: 根据关键词生成图片
+     * @author: 陈杰
+     * @date: 2022/10/21 9:41
+     * @param: keyWord  关键词
+     * @return: java.io.InputStream
+     **/
     @Override
     public InputStream drafting(String keyWord) {
-
         try {
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.MINUTES)
@@ -49,56 +51,52 @@ public class DrawServiceImpl implements DrawService {
                 seed = config.seed.toString();
             }
 
-
             String randomString = generateString(11);
-
 
             PostData data = new PostData();
 
             data.setFn_index(config.textFnIndex);
             data.setSession_hash(randomString);
 
-
-            Object[] arr =
-                    {keyWord,
-                            config.negativePrompt,
-                            config.promptStyle,//None
-                            config.promptStyle2,//None
-                            config.steps,//20
-                            config.samplerIndex,//Euler a
-                            config.restoreFaces,//false
-                            config.tiling,//false
-                            config.nIter,//1
-                            config.batchSize,//1
-                            config.cfgScale,//7
-                            Long.parseLong(seed),//-1
-                            config.subSeed,//-1
-                            config.subSeedStrength,//0
-                            config.seedResizeFromH,//0
-                            config.seedResizeFromW,//0
-                            config.seedEnableExtras,//false
-                            config.height,//512
-                            config.width,//512
-                            config.enableHr,//false
-                            //Config.scaleLatent,
-                            config.denoisingStrength,//0.7
-                            0,
-                            0,
-                            config.script,//None
-                            config.putVariablePartsAtStartOfPrompt,//false
-                            false,
-                            null,
-                            "",
-                            config.xtype,
-                            config.xvalues,
-                            config.ytype,
-                            config.yvalues,
-                            config.drawLegend,//true
-                            config.keepRandomSeeds,//false
-                            false,
-                            null,
-                            "",
-                            ""};
+            Object[] arr = {keyWord,
+                    config.negativePrompt,
+                    config.promptStyle,//None
+                    config.promptStyle2,//None
+                    config.steps,//20
+                    config.samplerIndex,//Euler a
+                    config.restoreFaces,//false
+                    config.tiling,//false
+                    config.nIter,//1
+                    config.batchSize,//1
+                    config.cfgScale,//7
+                    Long.parseLong(seed),//-1
+                    config.subSeed,//-1
+                    config.subSeedStrength,//0
+                    config.seedResizeFromH,//0
+                    config.seedResizeFromW,//0
+                    config.seedEnableExtras,//false
+                    config.height,//512
+                    config.width,//512
+                    config.enableHr,//false
+                    //Config.scaleLatent,
+                    config.denoisingStrength,//0.7
+                    0,
+                    0,
+                    config.script,//None
+                    config.putVariablePartsAtStartOfPrompt,//false
+                    false,
+                    null,
+                    "",
+                    config.xtype,
+                    config.xvalues,
+                    config.ytype,
+                    config.yvalues,
+                    config.drawLegend,//true
+                    config.keepRandomSeeds,//false
+                    false,
+                    null,
+                    "",
+                    ""};
 
             data.setData(arr);
 
@@ -126,13 +124,11 @@ public class DrawServiceImpl implements DrawService {
             File file = base64ToFile(dataUrl, ".png");
             InputStream inputStream = new FileInputStream(file);
             return inputStream;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
 
     }
-
-
 
 
     /**
@@ -141,7 +137,6 @@ public class DrawServiceImpl implements DrawService {
      * @param length 随机字符串长度
      * @return 随机字符串
      */
-
     public static String generateString(int length) {
 
         StringBuilder sb = new StringBuilder();
@@ -159,7 +154,14 @@ public class DrawServiceImpl implements DrawService {
     }
 
 
-
+    /**
+     * @description: 将DATA URL转换为文件
+     * @author: 陈杰
+     * @date: 2022/10/21 9:21
+     * @param: base64FileStr DATA URL
+     * @param: fileType 文件类型
+     * @return: java.io.File
+     **/
     public static File base64ToFile(String base64FileStr, String fileType) throws Exception {
         base64FileStr = base64FileStr.replace("\r\n", "");
         // 在用户temp目录下创建临时文件

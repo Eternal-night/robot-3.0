@@ -1,7 +1,5 @@
 package simbot.example.listener;
 
-
-import lombok.extern.slf4j.Slf4j;
 import love.forte.simboot.annotation.ContentTrim;
 import love.forte.simboot.annotation.Filter;
 import love.forte.simboot.annotation.Listener;

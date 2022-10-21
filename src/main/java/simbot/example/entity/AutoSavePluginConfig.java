@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+//ai绘图的接口请求参数
 @Data
 public class AutoSavePluginConfig implements Serializable {
 
