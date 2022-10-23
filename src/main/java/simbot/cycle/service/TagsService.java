@@ -1,10 +1,11 @@
 package simbot.cycle.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import simbot.cycle.entity.Tags;
 
 import java.util.List;
 
-public interface TagsService {
+public interface TagsService extends IService<Tags> {
 
     /**
      * 提供关键词，对应的标签。

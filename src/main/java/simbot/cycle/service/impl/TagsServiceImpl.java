@@ -2,11 +2,13 @@ package simbot.cycle.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import simbot.cycle.entity.Tags;
-import simbot.cycle.repository.TagsMapper;
+import simbot.cycle.mapper.TagsMapper;
 import simbot.cycle.service.TagsService;
+import simbot.cycle.service.TranslationService;
 import simbot.cycle.util.StringUtils;
 
 import java.util.ArrayList;
@@ -22,8 +24,12 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
 
     private static List<Tags> TAGS = new ArrayList<>();
 
+    @Autowired
+    private TranslationService translationService;
+
     @Override
     public String tags(String chinese) {
+
         if (StringUtils.isEmpty(chinese)) {
             return null;
         }
@@ -48,7 +54,14 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
                 .max(Comparator.comparing(Tags::getQuote))
                 .map(Tags::getTagName).orElse(null);
 
+        if (tag != null) {
+            return tag;
+        }
+
+        tag = translationService.ChineseToEnglish(chinese);
+
         return tag;
+
     }
 
     @Override
@@ -67,13 +80,13 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
         for (String tag : split) {
             if (isChinese(tag)) {
                 tagList.addAll(getTAGS().stream().filter(n -> n.getChinese().contains(tags)).collect(Collectors.toList()));
-            }else {
+            } else {
                 tagList.addAll(getTAGS().stream().filter(n -> n.getTagName().contains(tags)).collect(Collectors.toList()));
             }
         }
 
         if (tagList.isEmpty()) {
-         return tagList;
+            return tagList;
         }
 
         return tagList.stream().distinct().collect(Collectors.toList());

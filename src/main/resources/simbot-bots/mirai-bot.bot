@@ -1,7 +1,6 @@
 {
   "component": "simbot.mirai",
   "code": 228699943,
-
   "passwordInfo":{ "type": "text","text": "chen;13714217749"},
   "deviceInfoSeed": 1,
   "workingDir": ".",

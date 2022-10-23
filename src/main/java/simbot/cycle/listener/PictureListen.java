@@ -9,8 +9,6 @@ import love.forte.simbot.event.GroupMessageEvent;
 import love.forte.simbot.message.MessagesBuilder;
 import love.forte.simbot.message.ReceivedMessageContent;
 import love.forte.simbot.resources.Resource;
-import love.forte.simbot.resources.StandardResource;
-import love.forte.simbot.resources.URLResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import simbot.cycle.service.ImageService;
@@ -43,13 +41,13 @@ public class PictureListen {
     @Filter(value = "来丶涩图", matchType = MatchType.TEXT_STARTS_WITH)
     @ContentTrim
     public void onGroupMsgStWord(GroupMessageEvent event) throws IOException {
-        Integer FLAG = CycleUtils.getFLAG();
+        Integer IMAGE_FLAG = CycleUtils.getImageFlag();
         ReceivedMessageContent messageContent = event.getMessageContent();
         String plainText = messageContent.getPlainText();
         String name = plainText.replace("来丶涩图", "");
         if (StringUtils.isNotBlank(name)) {
             MessagesBuilder builder = new MessagesBuilder();
-            if (FLAG ==1) {
+            if (IMAGE_FLAG ==1) {
                 String imageUrl = imageService.getDuitangUrl(name);
                 if (imageUrl == null) {
                     event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
@@ -57,7 +55,7 @@ public class PictureListen {
                     builder.text("您点的涩图(๑＞ڡ＜)☆\n").image(Resource.of(new URL(imageUrl).openStream()));
                     event.getSource().sendBlocking(builder.build());
                 }
-            } else if (FLAG ==2) {
+            } else if (IMAGE_FLAG ==2) {
                 String imageUrl = imageService.getImageUrl(name);
                 if (imageUrl == null) {
                     event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
@@ -65,7 +63,7 @@ public class PictureListen {
                     builder.text("您点的涩图(๑＞ڡ＜)☆\n").image(Resource.of(new URL(imageUrl).openStream()));
                     event.getSource().sendBlocking(builder.build());
                 }
-            } else if (FLAG ==3) {
+            } else if (IMAGE_FLAG ==3) {
                 InputStream imageUrl = imageService.getImageInputStream(name);
                 if (imageUrl == null) {
                     event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");

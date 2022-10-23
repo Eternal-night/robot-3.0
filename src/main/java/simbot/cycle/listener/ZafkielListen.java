@@ -28,17 +28,17 @@ public class ZafkielListen {
     @Filter(value = "刻刻帝 十一之弹", matchType = MatchType.TEXT_EQUALS, targets = @Filter.Targets(authors = {"982319439"}))
     @ContentTrim
     public void onGroupMsgAdminEleven(GroupMessageEvent event){
-        Integer FLAG = CycleUtils.getFLAG();
-        if (FLAG ==1) {
-            FLAG =2;
+        Integer IMAGE_FLAG = CycleUtils.getImageFlag();
+        if (IMAGE_FLAG ==1) {
+            IMAGE_FLAG =2;
             imageService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了❥(ゝω・✿ฺ)");
-        } else if (FLAG ==2) {
-            FLAG =3;
+        } else if (IMAGE_FLAG ==2) {
+            IMAGE_FLAG =3;
             imageService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了(๑＞ڡ＜)✿ ");
-        } else if (FLAG ==3) {
-            FLAG =1;
+        } else if (IMAGE_FLAG ==3) {
+            IMAGE_FLAG =1;
             imageService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了(*ﾉω・*)ﾃﾍ");
         }
