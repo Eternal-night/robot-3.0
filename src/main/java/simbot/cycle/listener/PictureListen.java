@@ -2,6 +2,7 @@ package simbot.cycle.listener;
 
 import love.forte.simboot.annotation.ContentTrim;
 import love.forte.simboot.annotation.Filter;
+import love.forte.simboot.annotation.FilterValue;
 import love.forte.simboot.annotation.Listener;
 import love.forte.simboot.filter.MatchType;
 
@@ -38,13 +39,10 @@ public class PictureListen {
     }
 
     @Listener
-    @Filter(value = "来丶涩图", matchType = MatchType.TEXT_STARTS_WITH)
+    @Filter(value = "来丶涩图{{name}}", matchType = MatchType.REGEX_MATCHES)
     @ContentTrim
-    public void onGroupMsgStWord(GroupMessageEvent event) throws IOException {
+    public void onGroupMsgStWord(GroupMessageEvent event, @FilterValue("name") String name) throws IOException {
         Integer IMAGE_FLAG = CycleUtils.getImageFlag();
-        ReceivedMessageContent messageContent = event.getMessageContent();
-        String plainText = messageContent.getPlainText();
-        String name = plainText.replace("来丶涩图", "");
         if (StringUtils.isNotBlank(name)) {
             MessagesBuilder builder = new MessagesBuilder();
             if (IMAGE_FLAG ==1) {
