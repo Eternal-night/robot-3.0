@@ -1,7 +1,7 @@
 {
   "component": "simbot.mirai",
-  "code": 2842538851,
-  "passwordInfo":{ "type": "text","text": "chen;18712443531"},
+  "code": ,
+  "passwordInfo":{ "type": "text","text": ""},
   "deviceInfoSeed": 1,
   "workingDir": ".",
   "heartbeatPeriodMillis": 60000,
