@@ -3,8 +3,10 @@ package simbot.cycle.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.RequiredArgsConstructor;
+
 import okhttp3.*;
 import org.springframework.stereotype.Service;
+
 import simbot.cycle.entity.AutoSavePluginConfig;
 import simbot.cycle.entity.PostData;
 import simbot.cycle.service.DrawService;

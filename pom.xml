@@ -15,13 +15,13 @@
     <description>robot</description>
     <properties>
         <java.version>1.8</java.version>
-        <simbot.version>3.0.0-beta.2</simbot.version>
-        <simbot.mirai.version>v3.0.0.0-beta-M3</simbot.mirai.version>
-        <simbot.khl.version>3.0.0.0.preview.3.0</simbot.khl.version>
-        <okhttp.version>4.9.3</okhttp.version>
+        <simbot.version>3.0.0-M1</simbot.version>
+        <simbot.mirai.version>3.0.0.0-beta.4</simbot.mirai.version>
+        <okhttp.version>4.10.0</okhttp.version>
         <jsoup.version>1.12.1</jsoup.version>
         <fastjson.version>2.0.8</fastjson.version>
     </properties>
+
     <dependencies>
 
         <dependency>
@@ -32,14 +32,15 @@
         <dependency>
             <groupId>love.forte.simbot.boot</groupId>
             <artifactId>simboot-core-spring-boot-starter</artifactId>
-            <version>3.0.0-beta.2</version>
+            <version>${simbot.version}</version>
         </dependency>
 
         <dependency>
             <groupId>love.forte.simbot.component</groupId>
             <artifactId>simbot-component-mirai-boot</artifactId>
-            <version>3.0.0.0-beta-M3</version>
+            <version>${simbot.mirai.version}</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
