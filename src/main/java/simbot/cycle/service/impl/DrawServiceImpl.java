@@ -3,15 +3,17 @@ package simbot.cycle.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.RequiredArgsConstructor;
-
+import love.forte.simbot.resources.Resource;
+import love.forte.simbot.resources.StandardResource;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
-
 import simbot.cycle.entity.AutoSavePluginConfig;
 import simbot.cycle.entity.PostData;
 import simbot.cycle.service.DrawService;
+import simbot.cycle.util.OkHttpUtils;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Base64;
 import java.util.Random;
 import java.util.UUID;
@@ -122,10 +124,21 @@ public class DrawServiceImpl implements DrawService {
 
             if (dataUrl.contains("data:image")) {
                 dataUrl = dataUrl.substring(dataUrl.indexOf(",") + 1);
+                File file = base64ToFile(dataUrl, ".png");
+                return new FileInputStream(file);
+            }else {
+                Object name = JSON.parseObject(dataUrl).get("name");
+                String url = config.stableDiffusionWebui + "/file=" + name;
+
+                Request build = new Request.Builder().url(url)
+                        .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36")
+                        .addHeader("Referer", config.stableDiffusionWebui+"/")
+                        .build();
+
+                InputStream inputStream = client.newCall(build).execute().body().byteStream();
+
+                return inputStream;
             }
-            File file = base64ToFile(dataUrl, ".png");
-            InputStream inputStream = new FileInputStream(file);
-            return inputStream;
         } catch (Exception e) {
             return null;
         }

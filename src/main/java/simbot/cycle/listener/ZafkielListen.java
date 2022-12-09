@@ -32,21 +32,21 @@ public class ZafkielListen {
     }
 
 
-//    @Listener
+    @Listener
     @Filter(value = "刻刻帝 十一之弹", matchType = MatchType.TEXT_EQUALS, targets = @Filter.Targets(authors = {"982319439"}))
     @ContentTrim
     public void onGroupMsgAdminEleven(GroupMessageEvent event){
         Integer IMAGE_FLAG = CycleUtils.getImageFlag();
         if (IMAGE_FLAG ==1) {
-            IMAGE_FLAG =2;
+            CycleUtils.setImageFlag(2);
             imageService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了❥(ゝω・✿ฺ)");
         } else if (IMAGE_FLAG ==2) {
-            IMAGE_FLAG =3;
+            CycleUtils.setImageFlag(3);
             imageService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了(๑＞ڡ＜)✿ ");
         } else if (IMAGE_FLAG ==3) {
-            IMAGE_FLAG =1;
+            CycleUtils.setImageFlag(1);
             imageService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了(*ﾉω・*)ﾃﾍ");
         }
