@@ -5,15 +5,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import simbot.cycle.entity.Card;
-import simbot.cycle.entity.CardData;
-import simbot.cycle.entity.CardText;
+import simbot.cycle.entity.YuGiOh.Card;
+import simbot.cycle.entity.YuGiOh.CardData;
+import simbot.cycle.entity.YuGiOh.CardText;
 import simbot.cycle.mapper.CardMapper;
 import simbot.cycle.service.CardDataService;
 import simbot.cycle.service.CardService;
 import simbot.cycle.service.CardTextService;
-
-import java.util.List;
 
 
 @Service

@@ -1,6 +1,6 @@
 package simbot.cycle.service;
 
-import simbot.cycle.entity.YuGiOh;
+import simbot.cycle.entity.YuGiOh.YuGiOh;
 
 import java.io.IOException;
 import java.util.List;

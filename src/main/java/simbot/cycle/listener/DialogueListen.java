@@ -1,26 +1,19 @@
 package simbot.cycle.listener;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.plexpt.chatgpt.Chatbot;
 import love.forte.simboot.annotation.ContentTrim;
 import love.forte.simboot.annotation.Filter;
 import love.forte.simboot.annotation.FilterValue;
 import love.forte.simboot.annotation.Listener;
 import love.forte.simboot.filter.MatchType;
-import love.forte.simbot.component.mirai.message.MiraiForwardMessageBuilder;
-import love.forte.simbot.definition.Group;
 import love.forte.simbot.definition.Member;
 import love.forte.simbot.event.ContinuousSessionContext;
 import love.forte.simbot.event.GroupMessageEvent;
-import love.forte.simbot.message.MessagesBuilder;
-import love.forte.simbot.message.ReceivedMessageContent;
-import love.forte.simbot.message.Text;
-import net.mamoe.mirai.message.data.ForwardMessage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import simbot.cycle.entity.Card;
-import simbot.cycle.entity.Conversation;
+
+import simbot.cycle.entity.dialogue.Conversation;
 import simbot.cycle.service.RedisService;
 import simbot.cycle.util.StringUtils;
 
@@ -28,7 +21,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class DialogueListen {

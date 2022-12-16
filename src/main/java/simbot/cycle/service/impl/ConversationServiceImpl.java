@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import simbot.cycle.entity.Conversation;
+import simbot.cycle.entity.dialogue.Conversation;
 import simbot.cycle.mapper.ConversationMapper;
 import simbot.cycle.service.ConversationService;
 import simbot.cycle.service.RedisService;

@@ -1,23 +1,20 @@
 package simbot.cycle.listener;
 
-import com.github.plexpt.chatgpt.Chatbot;
 import love.forte.simboot.annotation.*;
 import love.forte.simboot.filter.MatchType;
 import love.forte.simbot.event.*;
 import love.forte.simbot.message.MessagesBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import simbot.cycle.service.ImageService;
+import simbot.cycle.service.ImageTagService;
 import simbot.cycle.util.CycleUtils;
-
-import java.util.Map;
 
 
 @Component
 public class ZafkielListen {
 
     @Autowired
-    private ImageService imageService;
+    private ImageTagService imageTagService;
 
     @Listener
     @Filter(value = "刻刻帝", matchType = MatchType.TEXT_EQUALS)
@@ -42,15 +39,15 @@ public class ZafkielListen {
         Integer IMAGE_FLAG = CycleUtils.getImageFlag();
         if (IMAGE_FLAG ==1) {
             CycleUtils.setImageFlag(2);
-            imageService.ClearData();
+            imageTagService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了❥(ゝω・✿ฺ)");
         } else if (IMAGE_FLAG ==2) {
             CycleUtils.setImageFlag(3);
-            imageService.ClearData();
+            imageTagService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了(๑＞ڡ＜)✿ ");
         } else if (IMAGE_FLAG ==3) {
             CycleUtils.setImageFlag(1);
-            imageService.ClearData();
+            imageTagService.ClearData();
             event.getSource().sendBlocking("时间的流向改变了(*ﾉω・*)ﾃﾍ");
         }
     }

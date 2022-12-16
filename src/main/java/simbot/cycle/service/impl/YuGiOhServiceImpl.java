@@ -10,8 +10,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import simbot.cycle.entity.YuGiOh;
-import simbot.cycle.entity.YuGiOhDetails;
+import simbot.cycle.entity.YuGiOh.YuGiOh;
+import simbot.cycle.entity.YuGiOh.YuGiOhDetails;
 import simbot.cycle.service.YuGiOhService;
 import simbot.cycle.util.OkHttpUtils;
 

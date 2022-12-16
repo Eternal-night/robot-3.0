@@ -2,13 +2,11 @@ package simbot.cycle.service.impl;
 
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import lombok.val;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.stereotype.Service;
-import simbot.cycle.entity.Translate;
+import simbot.cycle.entity.draw.Translate;
 import simbot.cycle.service.TranslationService;
 import simbot.cycle.util.OkHttpUtils;
 

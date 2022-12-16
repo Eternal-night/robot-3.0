@@ -1,7 +1,7 @@
 package simbot.cycle.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import simbot.cycle.entity.Tags;
+import simbot.cycle.entity.draw.Tags;
 
 import java.util.List;
 

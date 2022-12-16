@@ -8,11 +8,10 @@ import love.forte.simboot.filter.MatchType;
 
 import love.forte.simbot.event.GroupMessageEvent;
 import love.forte.simbot.message.MessagesBuilder;
-import love.forte.simbot.message.ReceivedMessageContent;
 import love.forte.simbot.resources.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import simbot.cycle.service.ImageService;
+import simbot.cycle.service.ImageTagService;
 import simbot.cycle.util.CycleUtils;
 import simbot.cycle.util.StringUtils;
 
@@ -26,7 +25,7 @@ import java.net.URL;
 public class PictureListen {
 
     @Autowired
-    private ImageService imageService;
+    private ImageTagService imageTagService;
 
 
     @Listener
@@ -34,7 +33,7 @@ public class PictureListen {
     @ContentTrim
     public void onGroupMsgSt(GroupMessageEvent event) throws IOException {
         MessagesBuilder builder = new MessagesBuilder();
-        builder.text("您点的涩图(๑＞ڡ＜)☆\n").image(Resource.of(imageService.ranDom()));
+        builder.text("您点的涩图(๑＞ڡ＜)☆\n").image(Resource.of(imageTagService.ranDom()));
         event.getSource().sendBlocking(builder.build());
     }
 
@@ -46,7 +45,7 @@ public class PictureListen {
         if (StringUtils.isNotBlank(name)) {
             MessagesBuilder builder = new MessagesBuilder();
             if (IMAGE_FLAG ==1) {
-                String imageUrl = imageService.getDuitangUrl(name);
+                String imageUrl = imageTagService.getDuitangUrl(name);
                 if (imageUrl == null) {
                     event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
                 } else {
@@ -54,7 +53,7 @@ public class PictureListen {
                     event.getSource().sendBlocking(builder.build());
                 }
             } else if (IMAGE_FLAG ==2) {
-                String imageUrl = imageService.getImageUrl(name);
+                String imageUrl = imageTagService.getImageUrl(name);
                 if (imageUrl == null) {
                     event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
                 } else {
@@ -62,7 +61,7 @@ public class PictureListen {
                     event.getSource().sendBlocking(builder.build());
                 }
             } else if (IMAGE_FLAG ==3) {
-                InputStream imageUrl = imageService.getImageInputStream(name);
+                InputStream imageUrl = imageTagService.getImageInputStream(name);
                 if (imageUrl == null) {
                     event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
                 } else {

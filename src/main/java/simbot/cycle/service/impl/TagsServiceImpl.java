@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import simbot.cycle.entity.Tags;
+import simbot.cycle.entity.draw.Tags;
 import simbot.cycle.mapper.TagsMapper;
 import simbot.cycle.service.TagsService;
 import simbot.cycle.service.TranslationService;
