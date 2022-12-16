@@ -1,5 +1,6 @@
 package simbot.cycle.listener;
 
+import com.github.plexpt.chatgpt.Chatbot;
 import love.forte.simboot.annotation.*;
 import love.forte.simboot.filter.MatchType;
 import love.forte.simbot.event.*;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import simbot.cycle.service.ImageService;
 import simbot.cycle.util.CycleUtils;
+
+import java.util.Map;
 
 
 @Component

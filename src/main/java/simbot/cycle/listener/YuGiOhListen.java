@@ -77,7 +77,7 @@ public class YuGiOhListen {
         List<Card> list = cardService.list(new LambdaQueryWrapper<Card>().eq(Card::getCnName, name));
         if (!list.isEmpty()) {
             Card cardAfter = list.stream().findFirst().orElse(null);
-            Card card = cardService.cardInfo(cardAfter.getId());
+            Card card = cardService.cardInfo(cardAfter.getCid());
             MessagesBuilder cardBuilder = new MessagesBuilder();
             cardBuilder.image(Resource.of(new URL(card.getImageUrl()).openStream()));
             cardBuilder.text("中文名:" + card.getCnName() + "\n")

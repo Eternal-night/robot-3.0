@@ -48,11 +48,13 @@ public class CardServiceImpl extends ServiceImpl<CardMapper, Card> implements Ca
 
     @Override
     public Card cardInfo(Integer id) {
-        Card card = this.getById(id);
-        CardText text = cardTextService.getById(card.getId());
-        CardData data = cardDataService.getById(card.getId());
-        card.setText(text);
-        card.setData(data);
-        return card;
+
+        Card one = this.getOne(new LambdaQueryWrapper<Card>().eq(Card::getCid, id).last("limit 1"));
+
+        CardText text = cardTextService.getById(one.getCid());
+        CardData data = cardDataService.getById(one.getCid());
+        one.setText(text);
+        one.setData(data);
+        return one;
     }
 }

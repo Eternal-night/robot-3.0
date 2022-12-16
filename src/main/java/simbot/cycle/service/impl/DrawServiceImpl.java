@@ -87,9 +87,17 @@ public class DrawServiceImpl implements DrawService {
                     0,
                     0,
                     config.script,//None
+                    0.9f,
+                    5,
+                    "0.0001",
+                    false,
+                    "None",
+                    "",
+                    0.1f,
+                    false,
+                    false,
                     config.putVariablePartsAtStartOfPrompt,//false
                     false,
-                    null,
                     "",
                     config.xtype,
                     config.xvalues,
@@ -98,9 +106,7 @@ public class DrawServiceImpl implements DrawService {
                     config.drawLegend,//true
                     config.keepRandomSeeds,//false
                     false,
-                    null,
-                    "",
-                    ""};
+                    null};
 
             data.setData(arr);
 
@@ -126,13 +132,13 @@ public class DrawServiceImpl implements DrawService {
                 dataUrl = dataUrl.substring(dataUrl.indexOf(",") + 1);
                 File file = base64ToFile(dataUrl, ".png");
                 return new FileInputStream(file);
-            }else {
+            } else {
                 Object name = JSON.parseObject(dataUrl).get("name");
                 String url = config.stableDiffusionWebui + "/file=" + name;
 
                 Request build = new Request.Builder().url(url)
                         .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36")
-                        .addHeader("Referer", config.stableDiffusionWebui+"/")
+                        .addHeader("Referer", config.stableDiffusionWebui + "/")
                         .build();
 
                 InputStream inputStream = client.newCall(build).execute().body().byteStream();

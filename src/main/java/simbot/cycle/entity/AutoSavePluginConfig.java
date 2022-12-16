@@ -9,13 +9,13 @@ import java.io.Serializable;
 public class AutoSavePluginConfig implements Serializable {
 
     //"stable-diffusion-webui接口"
-    public String stableDiffusionWebui = "http://region-3.seetacloud.com:33792";
+    public String stableDiffusionWebui = "http://127.0.0.1:7860";
 
     //接口id
-    public Integer textFnIndex = 51;
+    public Integer textFnIndex = 102;
 
     //接口id
-    public Integer imageFnIndex = 33;
+    public Integer imageFnIndex = 11;
 
     //模式，仅限image2image
     public Integer mode = 0;
@@ -71,7 +71,7 @@ public class AutoSavePluginConfig implements Serializable {
     public String promptStyle2 = "None";
 
     //步骤
-    public Integer steps = 28;
+    public Integer steps = 10;
 
     //采样器索引,Euler a|Euler|LMS|Heun|DPM2|DPM2 a|DPM fast|DPM adaptive|LMS Karras|DPM2 Karras|DPM2 a Karras|DDIM|PLMS
     // 图片转图片[Euler a|Euler|LMS|Heun|DPM2|DPM2 a|LMS Karras|DPM2 Karras|DPM2 a Karras|DDIM]
@@ -94,7 +94,7 @@ public class AutoSavePluginConfig implements Serializable {
 
 
     //分类器自由引导尺度——图像与提示符的一致程度——越低的值产生越有创意的结果
-    public Float cfgScale = 12f;
+    public Float cfgScale = 7f;
 
 
     //随机种子，-1为随机 只限数字
@@ -121,7 +121,7 @@ public class AutoSavePluginConfig implements Serializable {
     public Boolean seedEnableExtras = false;
 
     //高度
-    public Integer height = 768;
+    public Integer height = 512;
 
     //高度
     public Integer width = 512;

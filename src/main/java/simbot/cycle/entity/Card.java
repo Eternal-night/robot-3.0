@@ -1,12 +1,13 @@
 package simbot.cycle.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Card {
+public class Card implements Serializable {
 
     //主键
     @TableId("id")

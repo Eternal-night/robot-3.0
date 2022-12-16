@@ -3,8 +3,10 @@ package simbot.cycle.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import java.io.Serializable;
+
 @lombok.Data
-public class CardData {
+public class CardData implements Serializable {
 
 
     @TableId("card_id")
