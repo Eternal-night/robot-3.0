@@ -35,7 +35,7 @@ public class ProxyUtil {
      * @return 是否可用
      */
     public static boolean checkProt(String address, int prot) {
-        if (StringUtil.isEmpty(address)) {
+        if (StringUtil.isBlank(address)) {
             return false;
         }
         Socket socket = new Socket();

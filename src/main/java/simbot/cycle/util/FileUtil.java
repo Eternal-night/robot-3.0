@@ -138,10 +138,10 @@ public class FileUtil {
      * @throws IOException 文件处理异常
      */
     public static boolean move(String srcPathStr, String desPathStr) throws IOException {
-        if (StringUtil.isEmpty(srcPathStr)) {
+        if (StringUtil.isBlank(srcPathStr)) {
             throw new IOException("原文件路径不能为空");
         }
-        if (StringUtil.isEmpty(desPathStr)) {
+        if (StringUtil.isBlank(desPathStr)) {
             throw new IOException("目标路径不能为空");
         }
         File srcFile = new File(srcPathStr);
@@ -161,7 +161,7 @@ public class FileUtil {
      * @return 文件名称
      */
     public static String getFileName(String filePath) {
-        if (StringUtil.isEmpty(filePath)) {
+        if (StringUtil.isBlank(filePath)) {
             return "";
         }
         if (!filePath.contains(File.separator)) {
@@ -178,7 +178,7 @@ public class FileUtil {
      * @return 文件夹路径
      */
     public static String getFilePath(String fileFullPath) {
-        if (StringUtil.isEmpty(fileFullPath)) {
+        if (StringUtil.isBlank(fileFullPath)) {
             return "";
         }
         if (!fileFullPath.contains(File.separator)) {
@@ -221,7 +221,7 @@ public class FileUtil {
      * @return 文件后缀
      */
     public static String getFileSuffix(String fileName) {
-        if (StringUtil.isEmpty(fileName)) {
+        if (StringUtil.isBlank(fileName)) {
             return "";
         }
         if (!fileName.contains(".")) {

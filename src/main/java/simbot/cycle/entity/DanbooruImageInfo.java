@@ -1,7 +1,6 @@
 package simbot.cycle.entity;
 
-
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import simbot.cycle.entity.saucenao.SaucenaoSearchInfoResult;

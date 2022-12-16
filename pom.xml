@@ -114,11 +114,6 @@
             <artifactId>chatgpt</artifactId>
             <version>1.0.3</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>2.0.14</version>
-        </dependency>
         <!--google处理图片的工具-->
         <dependency>
             <groupId>net.coobird</groupId>

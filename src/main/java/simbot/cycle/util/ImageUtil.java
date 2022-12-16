@@ -72,7 +72,7 @@ public class ImageUtil {
      * @throws IOException 异常
      */
     public static String downloadImage(HashMap<String, String> header, String imageUrl, String localUrl, String fileName, Proxy proxy) throws IOException {
-        if (StringUtil.isEmpty(imageUrl)) {
+        if (StringUtil.isBlank(imageUrl)) {
             throw new IOException("网络图片链接为空");
         }
 
@@ -115,7 +115,7 @@ public class ImageUtil {
         }
 
         //如果为空，使用网络图片的名称和后缀
-        if (StringUtil.isEmpty(fileName)) {
+        if (StringUtil.isBlank(fileName)) {
             fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
         }
 
@@ -137,7 +137,7 @@ public class ImageUtil {
      * @return 是否存在
      */
     public static boolean isExists(String imageUrl) {
-        if (StringUtil.isEmpty(imageUrl)) {
+        if (StringUtil.isBlank(imageUrl)) {
             return false;
         }
         //创建本地文件
@@ -153,7 +153,7 @@ public class ImageUtil {
      */
     public static boolean isImage(String fileName) {
         String suffix = FileUtil.getFileSuffix(fileName);
-        if (StringUtil.isEmpty(suffix)) {
+        if (StringUtil.isBlank(suffix)) {
             return false;
         }
 

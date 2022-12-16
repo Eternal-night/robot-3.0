@@ -1,6 +1,6 @@
 package simbot.cycle.apirequest.pixiv;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
 import simbot.cycle.apirequest.BaseRequest;

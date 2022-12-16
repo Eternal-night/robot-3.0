@@ -1,9 +1,6 @@
 package simbot.cycle.apirequest.pixiv;
 
-
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-
+import com.alibaba.fastjson2.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
 import net.dreamlu.mica.core.utils.StringUtil;
@@ -43,7 +40,7 @@ public class PixivIllustUserGet extends BaseRequest {
      * @throws IOException 所有异常上抛，由业务处理
      */
     public void doRequest() throws CycleApiException, IOException {
-        if (StringUtil.isEmpty(userId) || !NumberUtil.isNumberOnly(userId)) return;
+        if (StringUtil.isBlank(userId) || !NumberUtil.isNumberOnly(userId)) return;
 
         //获取数据
         byte[] resultBytes = HttpsUtil.doGet(String.format(URL, userId), header, proxy);

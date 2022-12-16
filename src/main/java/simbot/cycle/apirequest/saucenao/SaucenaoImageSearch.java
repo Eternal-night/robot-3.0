@@ -1,7 +1,6 @@
 package simbot.cycle.apirequest.saucenao;
 
-
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
 import net.dreamlu.mica.core.utils.StringUtil;
@@ -71,7 +70,7 @@ public class SaucenaoImageSearch extends BaseRequest {
 
     //获取解析后的结果对象
     public SaucenaoSearchResult getEntity() {
-        if (StringUtil.isEmpty(body)) {
+        if (StringUtil.isBlank(body)) {
             return null;
         }
         return JSONObject.parseObject(body, SaucenaoSearchResult.class);

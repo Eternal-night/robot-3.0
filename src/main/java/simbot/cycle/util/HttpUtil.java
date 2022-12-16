@@ -51,7 +51,7 @@ public class HttpUtil {
             //加入请求头
             for (String key : header.keySet()) {
                 //忽略空的参数
-                if (StringUtil.isEmpty(key) || StringUtil.isEmpty(header.get(key))) {
+                if (StringUtil.isBlank(key) || StringUtil.isBlank(header.get(key))) {
                     continue;
                 }
                 httpURLConnection.setRequestProperty(key, header.get(key));
@@ -140,7 +140,7 @@ public class HttpUtil {
                 value = entry.getValue().toString();
             }
             // 忽略参数名或参数值为空的参数
-            if (StringUtil.isEmpty(name) || StringUtil.isEmpty(value)) {
+            if (StringUtil.isBlank(name) || StringUtil.isBlank(value)) {
                 continue;
             }
 

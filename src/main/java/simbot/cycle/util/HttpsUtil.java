@@ -230,7 +230,7 @@ public class HttpsUtil {
         //加入请求头
         for (String key : header.keySet()) {
             //忽略空的参数
-            if (StringUtil.isEmpty(key) || StringUtil.isEmpty(header.get(key))) {
+            if (StringUtil.isBlank(key) || StringUtil.isBlank(header.get(key))) {
                 continue;
             }
             httpsConn.setRequestProperty(key, header.get(key));

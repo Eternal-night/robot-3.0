@@ -5,7 +5,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
 import net.dreamlu.mica.core.utils.StringUtil;
@@ -48,7 +48,7 @@ public class DanbooruImageGet extends BaseRequest {
      * 解析图片信息
      */
     public DanbooruImageInfo parseDanbooruImageInfo() {
-        if (StringUtil.isEmpty(this.body)) {
+        if (StringUtil.isBlank(this.body)) {
             return null;
         }
         return JSONObject.parseObject(this.body, DanbooruImageInfo.class);

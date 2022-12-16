@@ -1,7 +1,6 @@
 package simbot.cycle.service;
 
-
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import net.dreamlu.mica.core.utils.StringUtil;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChain;
@@ -132,7 +131,7 @@ public class PixivService {
 //            //r18过滤
 //            if (1 == response.getXRestrict()) {
 //                String configR18 = ConstantConfig.common_config.get(ConstantConfig.CONFIG_R18);
-//                if (StringUtil.isEmpty(configR18) || ConstantCommon.OFF.equalsIgnoreCase(configR18)) {
+//                if (StringUtil.isBlank(configR18) || ConstantCommon.OFF.equalsIgnoreCase(configR18)) {
 //                    continue;
 //                }
 //            }
@@ -420,7 +419,7 @@ public class PixivService {
             if (StringUtil.isNotBlank(localUrl)) {
                 scaleForceLocalUrl = imageService.scaleForceByLocalImagePath(localUrl);
             }
-            if (StringUtil.isEmpty(scaleForceLocalUrl)) {
+            if (StringUtil.isBlank(scaleForceLocalUrl)) {
                 //图片下载或压缩失败
                 logger.warn(String.format("PixivImjadService downloadPixivImg %s url:%s", ConstantPixiv.PIXIV_IMAGE_DOWNLOAD_FAIL, url));
             }

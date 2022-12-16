@@ -49,7 +49,7 @@ public class PixivUserSearch extends BaseRequest {
      * @throws IOException 所有异常上抛，由业务处理
      */
     public void doRequest() throws IOException {
-        if (StringUtil.isEmpty(pixivUserNick)) return;
+        if (StringUtil.isBlank(pixivUserNick)) return;
 
         //挂上referer
         header.put("referer", String.format("https://www.pixiv.net/tags/%s/artworks?s_mode=s_tag", pixivUserNick));

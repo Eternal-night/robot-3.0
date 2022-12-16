@@ -1,6 +1,6 @@
 package simbot.cycle.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import net.dreamlu.mica.core.utils.StringUtil;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Group;
@@ -77,7 +77,7 @@ public class SwitchService {
         //只读取第一行
         String switchJson = reader.readLine();
         HashMap<String, String> switchMapTamp = null;
-        if (StringUtil.isEmpty(switchJson)) {
+        if (StringUtil.isBlank(switchJson)) {
             switchMapTamp = new HashMap<>();
         } else {
             switchMapTamp = JSONObject.parseObject(switchJson, HashMap.class);
@@ -163,7 +163,7 @@ public class SwitchService {
      */
     public ReString switchCheck(User sender, Contact subject, String switchName) {
         //传入判断，参数有问题，一律按照关闭返回
-        if (StringUtil.isEmpty(switchName)) {
+        if (StringUtil.isBlank(switchName)) {
             return new ReString(false, ConstantSwitch.SWITCH_GET_ERROR);
         }
 

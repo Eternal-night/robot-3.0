@@ -17,7 +17,7 @@ public class NumberUtil {
      * @return 是否为纯数字
      */
     public static boolean isNumberOnly(String str) {
-        if (StringUtil.isEmpty(str)) {
+        if (StringUtil.isBlank(str)) {
             return false;
         }
         char[] cc = str.toCharArray();
@@ -54,7 +54,7 @@ public class NumberUtil {
             return null;
         }
         String s = String.valueOf(obj);
-        if (StringUtil.isEmpty(s)) {
+        if (StringUtil.isBlank(s)) {
             return null;
         }
         return Double.valueOf(s);

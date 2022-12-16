@@ -124,7 +124,7 @@ public class ImageService {
      * @return 本地图片路径
      */
     public String scaleForceByLocalImagePath(String localImagePath) throws IOException {
-        if (StringUtil.isEmpty(localImagePath)) {
+        if (StringUtil.isBlank(localImagePath)) {
             return "";
         }
         //本地图片是否存在
@@ -199,7 +199,7 @@ public class ImageService {
      * @return 搜索结果
      */
     public SaucenaoSearchInfoResult searchImgFromSaucenao(String imgUrl) throws CycleException {
-        if (StringUtil.isEmpty(saucenaoKey)) {
+        if (StringUtil.isBlank(saucenaoKey)) {
             logger.warn(ConstantImage.SAUCENAO_API_KEY_EMPTY);
             throw new CycleException(ConstantImage.SAUCENAO_API_KEY_EMPTY);
         }
@@ -233,7 +233,7 @@ public class ImageService {
 
                 //过滤掉相似度50一下的
                 String similarity = infoResult.getHeader().getSimilarity();
-                if (StringUtil.isEmpty(similarity) || 50.0 > NumberUtil.toDouble(similarity)) {
+                if (StringUtil.isBlank(similarity) || 50.0 > NumberUtil.toDouble(similarity)) {
                     continue;
                 }
                 return infoResult;
