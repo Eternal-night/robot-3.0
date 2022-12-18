@@ -56,9 +56,15 @@ public class PixivIllustUserGet extends BaseRequest {
             throw new CycleApiException("接口业务失败,message:" + rootMap.get("message").toString());
         }
 
+        Object obj = rootMap.get("body");
+        String s = obj.toString();
+        JSONObject jsonObject = JSONObject.parseObject(s);
+        Map<String, ?> illustsMap =(Map<String, ?>) jsonObject.get("illusts");
+
+
         //解析所有pid 需要关闭fastjson针对null值的自动过滤
-        Map<?, ?> bodyMap = JSONObject.parseObject(JSONObject.toJSONString(rootMap.get("body"), SerializerFeature.WriteMapNullValue), HashMap.class);
-        Map<String, ?> illustsMap = JSONObject.parseObject(JSONObject.toJSONString(bodyMap.get("illusts"), SerializerFeature.WriteMapNullValue), HashMap.class);
+//        Map<?, ?> bodyMap = JSONObject.parseObject(JSONObject.toJSONString(rootMap.get("body"), SerializerFeature.WriteMapNullValue), HashMap.class);
+//        Map<String, ?> illustsMap = JSONObject.parseObject(JSONObject.toJSONString(bodyMap.get("illusts"), SerializerFeature.WriteMapNullValue), HashMap.class);
 
         Set<String> tempSet = illustsMap.keySet();
         responseList = new ArrayList<>(tempSet);

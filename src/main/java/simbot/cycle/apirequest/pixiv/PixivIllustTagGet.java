@@ -1,5 +1,7 @@
 package simbot.cycle.apirequest.pixiv;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
@@ -87,7 +89,10 @@ public class PixivIllustTagGet extends BaseRequest {
         Map<?, ?> illustMap = JSONObject.parseObject(JSONObject.toJSONString(bodyMap.get("illust")), HashMap.class);
 
         //解析结果
-        responseList = JSONObject.parseArray(JSONObject.toJSONString(illustMap.get("data")), PixivImageInfo.class);
+//        responseList = JSONObject.parseArray(JSONObject.toJSONString(illustMap.get("data")), PixivImageInfo.class);
+
+        responseList =  JSON.parseArray(JSONObject.toJSONString(illustMap.get("data"))).toList(PixivImageInfo.class);
+
         return responseList;
     }
 
