@@ -15,18 +15,9 @@ import java.io.InputStream;
 @SpringBootTest
 class SpringBootWebJavaApplicationTests {
 
-
-    @Autowired
-    private PixivService pixivService;
-
     @Test
     public void test() throws Exception{
 
-        File file = new File("data/images/pixiv/60180381_p0.png");
-
-        FileResource fileResource = new FileResource(file);
-
-        InputStream stream = fileResource.getStream();
     }
 
 

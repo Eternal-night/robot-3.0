@@ -6,6 +6,8 @@ import net.dreamlu.mica.core.utils.StringUtil;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.User;
 
+import net.mamoe.mirai.event.events.MessageEvent;
+import net.mamoe.mirai.internal.message.image.OnlineGroupImageImpl;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageUtils;
 import org.slf4j.Logger;
@@ -46,7 +48,6 @@ public class ImageService {
 
     @Value("${saucenao.key}")
     private String saucenaoKey;
-
     @Autowired
     private ProxyService proxyService;
     @Autowired
@@ -160,7 +161,14 @@ public class ImageService {
                 //压缩图片尺寸，实际上这个方法的作用是向指定尺寸数值靠拢，比例不会变，取长宽中最接近指定数值的一方为准
 //              Thumbnails.of(localImagePath).size(2500, 2500).toFile(scaleImgPath);
                 //处理出来jpg的dpi是91，文件挺小的 所以基本上太大的文件转为jpg就行了
-                Thumbnails.of(localImagePath).scale(1).toFile(scaleImgPath);
+                //Thumbnails.of(localImagePath).scale(1).toFile(scaleImgPath);
+
+                File file = new File(ConstantImage.DEFAULT_IMAGE_SCALE_SAVE_PATH);
+                file.mkdirs();
+
+                Thumbnails.Builder<File> fileBuilder = Thumbnails.of(localImagePath);
+                Thumbnails.Builder<File> scale = fileBuilder.scale(1);
+                scale.toFile(scaleImgPath);
             }
             //使用处理后的本地图片路径和文件名
             return scaleImgPath;
