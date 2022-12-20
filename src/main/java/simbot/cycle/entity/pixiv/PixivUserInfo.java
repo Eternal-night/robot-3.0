@@ -1,5 +1,6 @@
 package simbot.cycle.entity.pixiv;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +9,7 @@ import lombok.Setter;
  * for the Reisen
  * P站 用户信息
  */
-@Setter
-@Getter
+@Data
 public class PixivUserInfo {
     /**
      * 图片P站id

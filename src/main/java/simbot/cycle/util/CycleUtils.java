@@ -7,8 +7,6 @@ public class CycleUtils {
 
     private static Integer IMAGE_FLAG = 1;
 
-
-
     private static List<String> CONTRABAND_LIST = new ArrayList<>();
 
     public static void setImageFlag(Integer imageFlag) {

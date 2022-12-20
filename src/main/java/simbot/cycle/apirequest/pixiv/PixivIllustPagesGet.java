@@ -1,8 +1,6 @@
 package simbot.cycle.apirequest.pixiv;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
 import simbot.cycle.apirequest.BaseRequest;
@@ -69,9 +67,9 @@ public class PixivIllustPagesGet extends BaseRequest {
         //解析结果
         responseList = new ArrayList<>();
 
-//        List<PixivImageInfo> pixivImageInfos = JSONObject.parseArray(JSONObject.toJSONString(rootMap.get("body")), PixivImageInfo.class);
+        List<PixivImageInfo> pixivImageInfos = JSONObject.parseArray(JSONObject.toJSONString(rootMap.get("body")), PixivImageInfo.class);
 
-        List<PixivImageInfo> pixivImageInfos = JSONObject.parseObject(body).getJSONArray("body").toList(PixivImageInfo.class);
+
 
         for (PixivImageInfo pixivImageInfo : pixivImageInfos) {
             responseList.add(pixivImageInfo.getUrls());

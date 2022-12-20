@@ -1,5 +1,6 @@
 package simbot.cycle.entity.pixiv;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,7 @@ import java.util.List;
  * for the Reisen
  * P站 热榜 结果信息
  */
-@Setter
-@Getter
+@Data
 public class PixivRankImageInfo {
     /**
      * 图片P站id

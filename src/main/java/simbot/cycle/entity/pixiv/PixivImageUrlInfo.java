@@ -1,5 +1,6 @@
 package simbot.cycle.entity.pixiv;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +9,7 @@ import lombok.Setter;
  * for the Reisen
  * p站图片链接信息
  */
-@Setter
-@Getter
+@Data
 public class PixivImageUrlInfo {
     private String mini;
     private String thumb;

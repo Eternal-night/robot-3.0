@@ -1,5 +1,6 @@
 package simbot.cycle.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +12,7 @@ import java.util.Date;
  * For the Reisen
  * 存储触发了搜图指令的人员信息
  */
-@Getter
-@Setter
+@Data
 public class ImageSearchMemberInfo implements Serializable {
     /**
      * 账号

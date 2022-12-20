@@ -1,6 +1,7 @@
 package simbot.cycle.service;
 
 import love.forte.simbot.bot.Bot;
+import love.forte.simbot.message.MessagesBuilder;
 import net.mamoe.mirai.contact.ContactList;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.Image;
@@ -62,12 +63,12 @@ public class RabbitBotService {
     }
 
     /**
-     * 上传图片，获取图片id
-     * 重载，单条转化
-     *
-     * @param localImagesPath 本地图片地址
-     * @return mirai图片id
-     */
+     * @description:
+     * @author: 陈杰
+     * @date: 2022/12/20 14:26
+ * @param: localImagesPath
+ * @return: net.mamoe.mirai.message.data.Image
+     **/
     public Image uploadMiraiImage(String localImagesPath) {
 //        if (null == group) {
 //            ContactList<Group> groupList = RabbitBot.getBot().getGroups();

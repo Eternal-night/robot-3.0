@@ -22,6 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * @description: ai对话
+ * @author: 陈杰
+ **/
 @Component
 public class DialogueListen {
 

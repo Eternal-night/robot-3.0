@@ -1,5 +1,6 @@
 package simbot.cycle.entity.saucenao;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +10,7 @@ import java.util.List;
  * create by MikuLink on 2020/2/19 13:19
  * for the Reisen
  */
-@Setter
-@Getter
+@Data
 public class SaucenaoSearchInfoResultData {
     /**
      * ext_urls : ["https://www.pixiv.net/member_illust.php?mode=medium&illust_id=55527150"]
