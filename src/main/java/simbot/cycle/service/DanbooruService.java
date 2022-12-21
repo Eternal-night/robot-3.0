@@ -1,6 +1,8 @@
 package simbot.cycle.service;
 
 
+import love.forte.simbot.message.Message;
+import love.forte.simbot.message.MessagesBuilder;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,7 @@ public class DanbooruService {
      * @param infoResult 识图结果
      * @return 拼装好的群消息
      */
-    public MessageChain parseDanbooruImgRequest(SaucenaoSearchInfoResult infoResult) throws CycleException {
+    public MessagesBuilder parseDanbooruImgRequest(SaucenaoSearchInfoResult infoResult) throws CycleException {
 
         //根据id获取图片列表
         try {
@@ -87,13 +89,13 @@ public class DanbooruService {
         }
     }
 
-    public MessageChain getImgInfoById(Long danbooruId) throws IOException, CycleException {
+    public MessagesBuilder getImgInfoById(Long danbooruId) throws IOException, CycleException {
         DanbooruImageInfo danbooruImageInfo = downloadImgByDanbooruId(danbooruId);
         return parseMessageChan(danbooruImageInfo);
     }
 
     //转化结果对象
-    private MessageChain parseMessageChan(DanbooruImageInfo danbooruImageInfo) throws IOException {
+    private MessagesBuilder parseMessageChan(DanbooruImageInfo danbooruImageInfo) throws IOException {
         String imageUrl = danbooruImageInfo.getLargeFileUrl();
 
         //如果已经下载过了，直接返回
@@ -111,7 +113,7 @@ public class DanbooruService {
                     null,
                     proxyService.getProxy());
         }
-        MessageChain result = rabbitBotService.parseMsgChainByLocalImgs(localUrl);
+        MessagesBuilder result = rabbitBotService.parseMsgChainByLocalImgs(localUrl);
         SaucenaoSearchInfoResult saucenaoSearchInfoResult = danbooruImageInfo.getSaucenaoSearchInfoResult();
 
         StringBuilder resultStr = new StringBuilder();
@@ -132,7 +134,7 @@ public class DanbooruService {
         resultStr.append("\n[来源] ").append(source);
         resultStr.append("\n[主要TAG] ").append(danbooruImageInfo.getTagStringCharacter()).append(" ").append(danbooruImageInfo.getTagStringCopyright());
         resultStr.append("\n[上传时间] ").append(createdAt);
-        result = result.plus(resultStr.toString());
+        result = result.text(resultStr.toString());
         return result;
     }
 }

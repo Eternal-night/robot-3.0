@@ -1,6 +1,7 @@
 package simbot.cycle.service;
 
 
+import love.forte.simbot.message.MessagesBuilder;
 import net.coobird.thumbnailator.Thumbnails;
 import net.dreamlu.mica.core.utils.StringUtil;
 import net.mamoe.mirai.contact.Contact;
@@ -257,48 +258,14 @@ public class ImageService {
     }
 
 
-//    public void partSearchImg(MessageEvent event) {
-//        try {
-//            Long senderId = event.getSender().getId();
-//            String oriMsg = event.getMessage().contentToString();
-//
-//            //发送的必须为纯图片
-//            if (!oriMsg.equals("[图片]")) {
-//                return;
-//            }
-//            //发送者已经触发了搜图指令
-//            boolean senderExists = false;
-//            for (ImageSearchMemberInfo searchMemberInfo : ConstantImage.IMAGE_SEARCH_WITE_LIST) {
-//                if (searchMemberInfo.getId().equals(senderId)) {
-//                    senderExists = true;
-//                    ConstantImage.IMAGE_SEARCH_WITE_LIST.remove(searchMemberInfo);
-//                    break;
-//                }
-//            }
-//            if (!senderExists) {
-//                return;
-//            }
-//
-//            //搜图
-//            MessageChain messageChain = event.getMessage();
-//            String imgUrl = ((OnlineGroupImageImpl) messageChain.get(1)).getOriginUrl();
-//            messageChain = searchImgByImgUrl(imgUrl, event.getSender(), event.getSubject());
-//
-//            //发送结果
-//            event.getSubject().sendMessage(messageChain);
-//        } catch (Exception ex) {
-//            logger.error("partSearchImg " + ConstantImage.IMAGE_GET_ERROR, ex);
-//        }
-//    }
-
-    public MessageChain searchImgByImgUrl(String imgUrl, User sender, Contact subject) {
-        MessageChain messageChain = MessageUtils.newChain();
+    public MessagesBuilder searchImgByImgUrl(String imgUrl, User sender, Contact subject) {
+        MessagesBuilder builder = new MessagesBuilder();
         try {
             SaucenaoSearchInfoResult searchResult = this.searchImgFromSaucenao(imgUrl);
             if (null == searchResult) {
                 //没有符合条件的图片，识图失败
-                messageChain = messageChain.plus(ConstantImage.SAUCENAO_SEARCH_FAIL_PARAM);
-                return messageChain;
+                builder = builder.text(ConstantImage.SAUCENAO_SEARCH_FAIL_PARAM);
+                return builder;
             }
 
             //获取信息，并返回结果
@@ -307,24 +274,24 @@ public class ImageService {
                 PixivImageInfo pixivImageInfo = pixivService.getPixivImgInfoById((long) searchResult.getData().getPixiv_id());
                 pixivImageInfo.setSender(sender);
                 pixivImageInfo.setSubject(subject);
-                messageChain = pixivService.parsePixivImgInfoByApiInfo(pixivImageInfo, searchResult.getHeader().getSimilarity());
+                builder = pixivService.parsePixivImgInfoByApiInfo(pixivImageInfo, searchResult.getHeader().getSimilarity());
             } else {
                 //Danbooru
-                messageChain = danbooruService.parseDanbooruImgRequest(searchResult);
+                builder = danbooruService.parseDanbooruImgRequest(searchResult);
             }
         } catch (CycleException rabEx) {
             //业务异常，日志吃掉
-            messageChain = messageChain.plus(rabEx.getMessage());
+            builder = builder.text(rabEx.getMessage());
         } catch (FileNotFoundException fileNotFoundEx) {
             logger.warn(ConstantPixiv.PIXIV_IMAGE_DELETE + fileNotFoundEx.toString());
-            messageChain = messageChain.plus(ConstantPixiv.PIXIV_IMAGE_DELETE);
+            builder = builder.text(ConstantPixiv.PIXIV_IMAGE_DELETE);
         } catch (SocketTimeoutException timeoutException) {
             logger.error(ConstantImage.IMAGE_GET_TIMEOUT_ERROR + timeoutException.toString(), timeoutException);
-            messageChain = messageChain.plus(ConstantImage.IMAGE_GET_TIMEOUT_ERROR);
+            builder = builder.text(ConstantImage.IMAGE_GET_TIMEOUT_ERROR);
         } catch (Exception ex) {
             logger.error(ConstantImage.IMAGE_GET_ERROR + ex.toString(), ex);
-            messageChain = messageChain.plus(ConstantImage.IMAGE_GET_ERROR);
+            builder = builder.text(ConstantImage.IMAGE_GET_ERROR);
         }
-        return messageChain;
+        return builder;
     }
 }

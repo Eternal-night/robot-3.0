@@ -1,13 +1,8 @@
 package simbot.cycle.service;
 
-import love.forte.simbot.bot.Bot;
+import love.forte.simbot.message.Message;
 import love.forte.simbot.message.MessagesBuilder;
-import net.mamoe.mirai.contact.ContactList;
-import net.mamoe.mirai.contact.Group;
-import net.mamoe.mirai.message.data.Image;
-import net.mamoe.mirai.message.data.MessageChain;
-import net.mamoe.mirai.message.data.MessageUtils;
-import net.mamoe.mirai.utils.ExternalResource;
+import love.forte.simbot.resources.Resource;
 import org.springframework.stereotype.Service;
 import simbot.cycle.util.CollectionUtil;
 
@@ -19,15 +14,13 @@ import java.util.List;
 @Service
 public class RabbitBotService {
 
-    private Group group;
-
     /**
      * 针对本地图片路径上传并拼接成消息连做的代码封装方法
      *
      * @param localImgPath 本地图片路径
      * @return 消息链
      */
-    public MessageChain parseMsgChainByLocalImgs(String localImgPath) {
+    public MessagesBuilder parseMsgChainByLocalImgs(String localImgPath) {
         return parseMsgChainByLocalImgs(Arrays.asList(localImgPath));
     }
 
@@ -38,8 +31,8 @@ public class RabbitBotService {
      * @param localImgsPath 本地图片路径
      * @return 消息链
      */
-    public MessageChain parseMsgChainByLocalImgs(List<String> localImgsPath) {
-        List<Image> imageList = this.uploadMiraiImage(localImgsPath);
+    public MessagesBuilder parseMsgChainByLocalImgs(List<String> localImgsPath) {
+        List<Resource> imageList = this.uploadMiraiImage(localImgsPath);
         return this.parseMsgChainByImgs(imageList);
     }
 
@@ -49,36 +42,28 @@ public class RabbitBotService {
      * @param localImagesPath 本地图片列表
      * @return mirai图片id列表
      */
-    public List<Image> uploadMiraiImage(List<String> localImagesPath) {
-        List<Image> miraiImgList = new ArrayList<>();
+    public List<Resource> uploadMiraiImage(List<String> localImagesPath) {
+        List<Resource> miraiImgList = new ArrayList<>();
         //上传并获取每张图片的id
         if (CollectionUtil.isEmpty(localImagesPath)) {
             return miraiImgList;
         }
         for (String localImagePath : localImagesPath) {
-            Image tempMiraiImg = uploadMiraiImage(localImagePath);
+            Resource tempMiraiImg = uploadMiraiImage(localImagePath);
             miraiImgList.add(tempMiraiImg);
         }
         return miraiImgList;
     }
 
     /**
-     * @description:
+     * @description: 根据本地图片路径获取对应的资源对象
      * @author: 陈杰
-     * @date: 2022/12/20 14:26
- * @param: localImagesPath
- * @return: net.mamoe.mirai.message.data.Image
+     * @date: 2022/12/21 9:22
+     * @param: localImagesPath 本地图片路径
+     * @return: love.forte.simbot.resources.Resource
      **/
-    public Image uploadMiraiImage(String localImagesPath) {
-//        if (null == group) {
-//            ContactList<Group> groupList = RabbitBot.getBot().getGroups();
-//            for (Group grouptemp : groupList) {
-//                group = grouptemp;
-//                break;
-//            }
-//        }
-        //上传
-        return group.uploadImage(ExternalResource.create(new File(localImagesPath)).toAutoCloseable());
+    public Resource uploadMiraiImage(String localImagesPath) {
+        return Resource.of(new File(localImagesPath));
     }
 
 
@@ -88,11 +73,11 @@ public class RabbitBotService {
      * @param imgList mirai图片集合
      * @return 消息链
      */
-    public MessageChain parseMsgChainByImgs(List<Image> imgList) {
-        MessageChain messageChain = MessageUtils.newChain();
-        for (Image image : imgList) {
-            messageChain = messageChain.plus("").plus(image).plus("\n");
+    public MessagesBuilder parseMsgChainByImgs(List<Resource> imgList) {
+        MessagesBuilder builder = new MessagesBuilder();
+        for (Resource resource : imgList) {
+            builder.image(resource);
         }
-        return messageChain;
+        return builder;
     }
 }
