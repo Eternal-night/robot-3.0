@@ -21,22 +21,4 @@ public class ConversationServiceImpl extends ServiceImpl<ConversationMapper, Con
     @Autowired
     private RedisService redisService;
 
-    /**
-     * @description: 初始化数据
-     * @author: 陈杰
-     * @date: 2022/12/8 11:49
-     **/
-    @PostConstruct
-    private void init() {
-
-        List<Conversation> conversationList = this.list();
-
-        Map<String, List<Conversation>> collect = conversationList.stream().collect(Collectors.groupingBy(Conversation::getAsking));
-
-        for (String key : collect.keySet()) {
-            redisService.setCacheList(key,collect.get(key));
-        }
-
-    }
-
 }
