@@ -49,8 +49,8 @@ public class CardServiceImpl extends ServiceImpl<CardMapper, Card> implements Ca
 
         Card one = this.getOne(new LambdaQueryWrapper<Card>().eq(Card::getCid, id).last("limit 1"));
 
-        CardText text = cardTextService.getById(one.getCid());
-        CardData data = cardDataService.getById(one.getCid());
+        CardText text = cardTextService.getById(one.getId());
+        CardData data = cardDataService.getById(one.getId());
         one.setText(text);
         one.setData(data);
         return one;

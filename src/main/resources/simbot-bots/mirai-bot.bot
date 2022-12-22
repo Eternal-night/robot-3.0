@@ -10,7 +10,7 @@
   "heartbeatStrategy": "STAT_HB",
   "reconnectionRetryTimes": 2147483647,
   "autoReconnectOnForceOffline": false,
-  "protocol": "ANDROID_PHONE",
+  "protocol": "IPAD",
   "highwayUploadCoroutineCount": 16,
   "deviceInfoJson": {
     "display": [77, 73, 82, 65, 73, 45, 83, 73, 77, 66, 79, 84, 46, 50, 48, 48, 49, 50, 50, 46, 48, 48, 49],

@@ -127,54 +127,9 @@ public class PictureListen {
 
     private void parseImages(PixivImageInfo imageInfo) throws IOException {
         Long pixivId = NumberUtil.toLong(imageInfo.getId());
-        List<String> localImagesPathList = new ArrayList<>();
-
-        if (1 < imageInfo.getPageCount()) {
-            //多图 如果因为没登录而获取不到，则只取封面
-            localImagesPathList.addAll(pixivService.downloadPixivImgsAll(pixivId));
-
-        } else {
-            //单图
-            localImagesPathList.add(pixivService.downloadPixivImg(imageInfo.getUrls().getOriginal(), pixivId));
-        }
-        imageInfo.setLocalImgPathList(localImagesPathList);
+        List<String> strings = pixivService.downloadPixivImgsAll(pixivId);
+        imageInfo.setLocalImgPathList(strings);
     }
 
-
-//    @Listener
-//    @Filter(value = "来丶涩图{{name}}", matchType = MatchType.REGEX_MATCHES)
-//    @ContentTrim
-//    public void onGroupMsgStWord(GroupMessageEvent event, @FilterValue("name") String name) throws IOException {
-//        Integer IMAGE_FLAG = CycleUtils.getImageFlag();
-//        if (StringUtils.isNotBlank(name)) {
-//            MessagesBuilder builder = new MessagesBuilder();
-//            if (IMAGE_FLAG ==1) {
-//                String imageUrl = imageTagService.getDuitangUrl(name);
-//                if (imageUrl == null) {
-//                    event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
-//                } else {
-//                    builder.text("您点的涩图(๑＞ڡ＜)☆\n").image(Resource.of(new URL(imageUrl).openStream()));
-//                    event.getSource().sendBlocking(builder.build());
-//                }
-//            } else if (IMAGE_FLAG ==2) {
-//                String imageUrl = imageTagService.getImageUrl(name);
-//                if (imageUrl == null) {
-//                    event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
-//                } else {
-//                    builder.text("您点的涩图(๑＞ڡ＜)☆\n").image(Resource.of(new URL(imageUrl).openStream()));
-//                    event.getSource().sendBlocking(builder.build());
-//                }
-//            } else if (IMAGE_FLAG ==3) {
-//                InputStream imageUrl = imageTagService.getImageInputStream(name);
-//                if (imageUrl == null) {
-//                    event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
-//                } else {
-//                    builder.text("您点的涩图(๑＞ڡ＜)☆\n").image(Resource.of(imageUrl));
-//                    event.getSource().sendBlocking(builder.build());
-//                }
-//            }
-//
-//        }
-//    }
 
 }
