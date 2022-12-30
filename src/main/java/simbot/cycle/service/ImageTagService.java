@@ -10,7 +10,8 @@ public interface ImageTagService {
 
     String getDuitangUrl(String name) throws IOException;
 
-    InputStream ranDom() throws IOException;
+    String ranDom() throws IOException;
+    String ranDomR18(String word) throws IOException;
 
     void ClearData();
 

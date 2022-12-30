@@ -137,22 +137,22 @@ public class ImageService {
         //获取图片名称
         String imageFullName = FileUtil.getFileName(localImagePath);
 
-        //如果图片超出大小，则缩小图片，减少不必要的麻烦
-
-        boolean isScale = false;
-        //是否总是压制图片
-        String image_scale_force = ConstantCommon.common_config.get(ConstantConfig.CONFIG_IMAGE_SCALE_FORCE);
-        if (ConstantConfig.ON.equalsIgnoreCase(image_scale_force)) {
-            isScale = true;
-        } else {
-            //判断图片的大小
-            ImageInfo imageInfo = ImageUtil.getImageInfo(localImagePath);
-            boolean overSize = ConstantImage.IMAGE_SCALE_MIN_SIZE * 1024 * 1024 < imageInfo.getSize();
-            boolean overHeight = ConstantImage.IMAGE_SCALE_MIN_HEIGHT < imageInfo.getHeight();
-            boolean overWidth = ConstantImage.IMAGE_SCALE_MIN_WIDTH < imageInfo.getWidth();
-            isScale = overSize || overHeight || overWidth;
-        }
-        if (isScale) {
+//        //如果图片超出大小，则缩小图片，减少不必要的麻烦
+//
+//        boolean isScale = false;
+//        //是否总是压制图片
+//        String image_scale_force = ConstantCommon.common_config.get(ConstantConfig.CONFIG_IMAGE_SCALE_FORCE);
+//        if (ConstantConfig.ON.equalsIgnoreCase(image_scale_force)) {
+//            isScale = true;
+//        } else {
+//            //判断图片的大小
+//            ImageInfo imageInfo = ImageUtil.getImageInfo(localImagePath);
+//            boolean overSize = ConstantImage.IMAGE_SCALE_MIN_SIZE * 1024 * 1024 < imageInfo.getSize();
+//            boolean overHeight = ConstantImage.IMAGE_SCALE_MIN_HEIGHT < imageInfo.getHeight();
+//            boolean overWidth = ConstantImage.IMAGE_SCALE_MIN_WIDTH < imageInfo.getWidth();
+//            isScale = overSize || overHeight || overWidth;
+//        }
+//        if (isScale) {
             //生成修改后的文件名和路径，后缀为jpg
             imageFullName = imageFullName.substring(0, imageFullName.lastIndexOf("."));
             String scaleImgName = ConstantImage.IMAGE_SCALE_PREFIX + imageFullName + ".jpg";
@@ -173,10 +173,10 @@ public class ImageService {
             }
             //使用处理后的本地图片路径和文件名
             return scaleImgPath;
-        }
-
-        //返回本地连接
-        return localImagePath;
+//        }
+//
+//        //返回本地连接
+//        return localImagePath;
     }
 
     /**

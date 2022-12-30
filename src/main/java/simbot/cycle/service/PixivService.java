@@ -1,9 +1,14 @@
 package simbot.cycle.service;
 
 import com.alibaba.fastjson2.JSONObject;
+import love.forte.simbot.bot.Bot;
+import love.forte.simbot.component.mirai.message.MiraiForwardMessageBuilder;
+import love.forte.simbot.component.mirai.message.MiraiSendOnlyForwardMessage;
 import love.forte.simbot.message.MessagesBuilder;
 import love.forte.simbot.resources.Resource;
 import net.dreamlu.mica.core.utils.StringUtil;
+import net.mamoe.mirai.message.data.ForwardMessage;
+import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -274,6 +279,26 @@ public class PixivService {
     }
 
     /**
+     * @description: 将图片信息组装为群消息链
+     * @author: 陈杰
+     * @date: 2022/12/29 9:06
+     * @param: imageInfo
+     * @param: bot
+     * @return: love.forte.simbot.component.mirai.message.MiraiSendOnlyForwardMessage
+     **/
+    public MiraiSendOnlyForwardMessage parsePixivImgInfo(PixivImageInfo imageInfo, Bot bot) throws IOException {
+        MiraiForwardMessageBuilder chain = new MiraiForwardMessageBuilder(ForwardMessage.DisplayStrategy.Default);
+        parseImages(imageInfo);
+        List<Resource> miraiImageList = rabbitBotService.uploadMiraiImage(imageInfo.getLocalImgPathList());
+        for (Resource resource : miraiImageList) {
+            MessagesBuilder builder = new MessagesBuilder();
+            builder.image(resource);
+            chain.add(bot,builder.build());
+        }
+        return chain.build();
+    }
+
+    /**
      * 排行榜图片信息拼装为群消息
      *
      * @param imageInfo 排行榜图片信息
@@ -378,7 +403,7 @@ public class PixivService {
     public void parseImages(PixivImageInfo imageInfo) throws IOException {
         Long pixivId = NumberUtil.toLong(imageInfo.getId());
         List<String> localImagesPathList = new ArrayList<>();
-
+        String original = imageInfo.getUrls().getOriginal();
         if (1 < imageInfo.getPageCount()) {
             //多图 如果因为没登录而获取不到，则只取封面
             try {
@@ -386,11 +411,15 @@ public class PixivService {
             } catch (FileNotFoundException fileNotFoundEx) {
                 logger.warn("pixiv多图获取失败，可能登录过期,imageInfo:{}", JSONObject.toJSONString(imageInfo), fileNotFoundEx);
                 //限制级会要求必须登录，如果不登录会抛出异常
-                localImagesPathList.add(downloadPixivImg(imageInfo.getUrls().getOriginal(), pixivId));
+                if (original!=null) {
+                    localImagesPathList.add(downloadPixivImg(original, pixivId));
+                }
             }
         } else {
-            //单图
-            localImagesPathList.add(downloadPixivImg(imageInfo.getUrls().getOriginal(), pixivId));
+            if (original!=null) {
+                //单图
+                localImagesPathList.add(downloadPixivImg(original, pixivId));
+            }
         }
         imageInfo.setLocalImgPathList(localImagesPathList);
     }
@@ -423,10 +452,12 @@ public class PixivService {
             if (StringUtil.isNotBlank(localUrl)) {
                 scaleForceLocalUrl = imageService.scaleForceByLocalImagePath(localUrl);
             }
+
             if (StringUtil.isBlank(scaleForceLocalUrl)) {
                 //图片下载或压缩失败
                 logger.warn(String.format("PixivImjadService downloadPixivImg %s url:%s", ConstantPixiv.PIXIV_IMAGE_DOWNLOAD_FAIL, url));
             }
+
         } catch (FileNotFoundException fileNotFoundEx) {
             //图片被删了
             logger.warn(String.format("PixivImjadService downloadPixivImg %s pixivId:%s", ConstantPixiv.PIXIV_IMAGE_DELETE, pixivId));

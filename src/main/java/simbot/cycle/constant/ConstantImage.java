@@ -13,6 +13,7 @@ import java.util.*;
 public class ConstantImage extends ConstantCommon {
     //默认的文件储存路径
     public static final String DEFAULT_IMAGE_SAVE_PATH = "data/images";
+    public static final String DEFAULT_IMAGE_SAVE_PATH_R18 = "data/images/r18";
     //处理后的图片存放目录
     public static final String DEFAULT_IMAGE_SCALE_SAVE_PATH = "data/images/scale";
     //微博图片存放目录
@@ -27,7 +28,7 @@ public class ConstantImage extends ConstantCommon {
     //经过处理的图片前缀
     public static String IMAGE_SCALE_PREFIX = "rabbit_scale_";
     //需要处理的大小阈值(mb)
-    public static double IMAGE_SCALE_MIN_SIZE = 4;
+    public static double IMAGE_SCALE_MIN_SIZE = 1;
     //需要处理的宽度尺寸阈值(像素)
     public static double IMAGE_SCALE_MIN_HEIGHT = 3500;
     //需要处理的长度尺寸阈值(像素)

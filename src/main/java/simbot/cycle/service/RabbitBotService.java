@@ -44,7 +44,7 @@ public class RabbitBotService {
      */
     public List<Resource> uploadMiraiImage(List<String> localImagesPath) {
         List<Resource> miraiImgList = new ArrayList<>();
-        //上传并获取每张图片的id
+
         if (CollectionUtil.isEmpty(localImagesPath)) {
             return miraiImgList;
         }

@@ -22,9 +22,8 @@ public class BotUtils {
         final ID qqId = event.getAuthor().getId();
         final ID groupId = event.getGroup().getId();
         try {
-            return sessionContext.waitingForNextMessage((context,
-                                                         messageEvent) -> {
-                log.info(messageEvent.toString());
+            return sessionContext.waitingForNextMessage((context, messageEvent) -> {
+                //log.info(messageEvent.toString());
                 GroupMessageEvent groupMessageEvent = (GroupMessageEvent) messageEvent;
                 final ID sid = groupMessageEvent.getBot().getId();
                 final ID sqqId = groupMessageEvent.getAuthor().getId();
@@ -50,9 +49,8 @@ public class BotUtils {
         final ID qqId = event.getAuthor().getId();
         final ID groupId = event.getGroup().getId();
         try {
-            return sessionContext.waitingForNextMessage((context,
-                                                         messageEvent) -> {
-                log.info(messageEvent.toString());
+            return sessionContext.waitingForNextMessage((context, messageEvent) -> {
+                //log.info(messageEvent.toString());
                 GroupMessageEvent groupMessageEvent = (GroupMessageEvent) messageEvent;
                 final ID sid = groupMessageEvent.getBot().getId();
                 final ID sqqId = groupMessageEvent.getAuthor().getId();

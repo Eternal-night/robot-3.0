@@ -60,9 +60,9 @@ public class DialogueListen {
 
 
 
-    @Listener
-    @Filter(value = "刻刻帝{{name}}", matchType = MatchType.REGEX_MATCHES)
-    @ContentTrim
+//    @Listener
+//    @Filter(value = "刻刻帝{{name}}", matchType = MatchType.REGEX_MATCHES)
+//    @ContentTrim
     public void chatGPT(ContinuousSessionContext sessionContext, GroupMessageEvent event, @FilterValue("name") String name) throws IOException {
         if (StringUtils.isNotEmpty(name)) {
             Chatbot chatbot = new Chatbot(token);

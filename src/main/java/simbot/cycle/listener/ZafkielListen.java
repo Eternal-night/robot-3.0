@@ -24,31 +24,39 @@ public class ZafkielListen {
         builder.text("可执行指令\n")
                 .text("来丶涩图:获取一张涩图\n")
                 .text("来丶涩图+tag:获取指定标签相关的涩图\n")
-                .text("#卡片:查询游戏王卡片\n")
-                .text("#咒文:绘图\n")
-                .text("#查询咒文:查询绘图词条\n")
-                .text("#禁止咒文:禁止绘图词条\n");
+                .text("涩图排行:获取今日涩图排行\n")
+                .text("涩图id:获取指定id的涩图\n")
+                .text("涩图搜索:查询图片来源，仅限P站D站\n")
+                .text("来丶色图+tag:指定关键词，获取一张大人的色图\n")
+                .text("#卡片:查询游戏王卡片\n");
+//                .text("#咒文:绘图\n")
+//                .text("#查询咒文:查询绘图词条\n")
+//                .text("#禁止咒文:禁止绘图词条\n");
         event.getSource().sendBlocking(builder.build());
     }
 
 
     @Listener
-    @Filter(value = "刻刻帝 十一之弹", matchType = MatchType.TEXT_EQUALS, targets = @Filter.Targets(authors = {"982319439"}))
+    @Filter(value = "刻刻帝{{name}}", matchType = MatchType.REGEX_MATCHES, targets = @Filter.Targets(authors = {"982319439"}))
     @ContentTrim
-    public void onGroupMsgAdminEleven(GroupMessageEvent event){
-        Integer IMAGE_FLAG = CycleUtils.getImageFlag();
-        if (IMAGE_FLAG ==1) {
-            CycleUtils.setImageFlag(2);
-            imageTagService.ClearData();
-            event.getSource().sendBlocking("时间的流向改变了❥(ゝω・✿ฺ)");
-        } else if (IMAGE_FLAG ==2) {
-            CycleUtils.setImageFlag(3);
-            imageTagService.ClearData();
-            event.getSource().sendBlocking("时间的流向改变了(๑＞ڡ＜)✿ ");
-        } else if (IMAGE_FLAG ==3) {
-            CycleUtils.setImageFlag(1);
-            imageTagService.ClearData();
-            event.getSource().sendBlocking("时间的流向改变了(*ﾉω・*)ﾃﾍ");
+    public void onGroupMsgAdminEleven(GroupMessageEvent event,@FilterValue("name") String name){
+        String text = "库存不足惹|*´Å`)ﾉ ";
+        switch (name){
+            case "一之弹":CycleUtils.setImageFlag(1);text="一之弹已装填٩(๑>◡<๑)۶ ";break;
+            case "二之弹":CycleUtils.setImageFlag(2);text="二之弹已装填(๑╹◡╹)ﾉ\"\"\"";break;
+            case "三之弹":CycleUtils.setImageFlag(3);text="三之弹已装填ヾ(๑╹◡╹)ﾉ\"";break;
+            case "四之弹":CycleUtils.setImageFlag(4);text="四之弹已装填(๑´ㅂ`๑) ";break;
+            case "五之弹":CycleUtils.setImageFlag(5);text="五之弹已装填ヽ(ﾟ∀ﾟ)ﾒ(ﾟ∀ﾟ)ﾉ ";break;
+            case "六之弹":CycleUtils.setImageFlag(6);text="六之弹已装填︿(￣︶￣)︿";break;
+            case "七之弹":CycleUtils.setImageFlag(7);text="七之弹已装填ヾ(^∀^)ﾉ";break;
+            case "八之弹":text="八之弹尚未寻回|*´Å`)ﾉ ";break;
+            case "九之弹":text="九之弹尚未寻回( Ĭ ^ Ĭ )";break;
+            case "十之弹":text="十之弹尚未寻回〒▽〒";break;
+            case "十一之弹":text="十一之弹尚未寻回o(╥﹏╥)o";break;
+            case "十二之弹":CycleUtils.setImageFlag(12);text="十二之弹已装填ヾ(✿ﾟ▽ﾟ)ノ";break;
+            default:
+                break;
         }
+        event.getSource().sendBlocking(text);
     }
 }

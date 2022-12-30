@@ -11,14 +11,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import simbot.cycle.constant.ConstantImage;
 import simbot.cycle.entity.picture.ImageEntity;
 import simbot.cycle.entity.picture.ReceiveImageEntity;
+import simbot.cycle.service.ImageService;
 import simbot.cycle.service.ImageTagService;
+import simbot.cycle.util.CycleUtils;
 import simbot.cycle.util.OkHttpUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +34,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ImageTagServiceImpl implements ImageTagService {
+
+    @Autowired
+    private ImageService imageService;
 
     //缓存图片地址查询结果
     private static final Map<String, List<String>> ADDRESS_SET = new ConcurrentHashMap<>();
@@ -57,7 +63,7 @@ public class ImageTagServiceImpl implements ImageTagService {
             ThreadLocalRandom random = ThreadLocalRandom.current();
             String url = urlList.get(random.nextInt(urlList.size()));
 
-             OkHttpClient client = OkHttpUtils.getOkHttpClient();
+            OkHttpClient client = OkHttpUtils.getOkHttpClient();
 
             Request build = new Request.Builder().url("https://www.vilipix.com" + url)
                     .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36")
@@ -85,7 +91,6 @@ public class ImageTagServiceImpl implements ImageTagService {
 
 
     }
-
 
 
     /**
@@ -190,16 +195,95 @@ public class ImageTagServiceImpl implements ImageTagService {
      * @return: java.io.InputStream
      **/
     @Override
-    public InputStream ranDom() throws IOException {
+    public String ranDom() throws IOException {
         OkHttpClient client = OkHttpUtils.getOkHttpClient();
-        Request build = new Request.Builder().url("https://iw233.cn/API/Random.php")
+        String imageUrl = CycleUtils.getImageUrl();
+        Request build = new Request.Builder().url(imageUrl)
                 .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36")
                 .build();
         Response response = client.newCall(build).execute();
         if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-        return Objects.requireNonNull(response.body()).byteStream();
+        InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
+        return pictograph(inputStream);
     }
 
+
+    @Override
+    public String ranDomR18(String word) throws IOException {
+        OkHttpClient client = OkHttpUtils.getOkHttpClient();
+        String imageUrl = CycleUtils.getImageUrlR18() + word;
+        Request build = new Request.Builder().url(imageUrl)
+                .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36")
+                .build();
+        Response response = client.newCall(build).execute();
+        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
+        return pictograph(inputStream);
+    }
+
+    /**
+     * @description: 将流转换为文件并返回压缩后的文件地址
+     * @author: 陈杰
+     * @date: 2022/12/30 16:51
+     * @param: inputStream
+     * @return: java.lang.String
+     **/
+    private String pictograph(InputStream inputStream) throws IOException {
+        //创建本地文件
+        File result = new File(ConstantImage.DEFAULT_IMAGE_SAVE_PATH_R18);
+        if (!result.exists()) {
+            result.mkdirs();
+        }
+        //写入图片数据
+        String fileFullName = result + File.separator + UUID.randomUUID().toString().replaceAll("-", "") + ".jpg";
+        File file = new File(fileFullName);
+        inputStreamToFile(inputStream,file);
+        String url = imageService.scaleForceByLocalImagePath(fileFullName);
+        return url;
+    }
+
+    /**
+     * 输入流转文件
+     *
+     * @param ins
+     * @param file
+     */
+    public static void inputStreamToFile(InputStream ins, File file) {
+        BufferedOutputStream bos = null;
+        BufferedInputStream bis = new BufferedInputStream(ins);
+        try {
+            bos = new BufferedOutputStream(new FileOutputStream(file));
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = bis.read(buffer, 0, 8192)) != -1) {
+                bos.write(buffer, 0, bytesRead);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ins != null) {
+                try {
+                    ins.close();
+                } catch (IOException e) {
+                }
+                ins = null;
+            }
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e) {
+                }
+                bos = null;
+            }
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                }
+                bis = null;
+            }
+        }
+    }
     /**
      * @description: 清空临时数据
      * @author: 陈杰
@@ -220,16 +304,16 @@ public class ImageTagServiceImpl implements ImageTagService {
      * @date: 2022/10/11 14:34
      **/
     @Override
-    public Boolean initRank(){
+    public Boolean initRank() {
 
         try {
             LocalDate date = LocalDate.now();
             String format = date.format(DateTimeFormatter.ISO_DATE);
-            this.getRankData(format,1);
-            this.getRankData(format,2);
-            this.getRankData(format,3);
+            this.getRankData(format, 1);
+            this.getRankData(format, 2);
+            this.getRankData(format, 3);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -374,17 +458,16 @@ public class ImageTagServiceImpl implements ImageTagService {
     }
 
 
-
     /**
      * @description: 获取资源库
      * @author: 陈杰
      * @date: 2022/10/11 14:25
      **/
-    private void getRankData(String date,Integer page) throws IOException {
+    private void getRankData(String date, Integer page) throws IOException {
         OkHttpClient client = OkHttpUtils.getOkHttpClient();
-        Request build = new Request.Builder().url("https://pixiviz-api-tc.pwp.link/v1/illust/rank?mode=month&date="+date+"&page="+page)
+        Request build = new Request.Builder().url("https://pixiviz-api-tc.pwp.link/v1/illust/rank?mode=month&date=" + date + "&page=" + page)
                 .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36")
-                .addHeader("Referer","https://pixiviz.pwp.app/")
+                .addHeader("Referer", "https://pixiviz.pwp.app/")
                 .build();
         Response response = client.newCall(build).execute();
         if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
@@ -392,7 +475,7 @@ public class ImageTagServiceImpl implements ImageTagService {
         JSONObject jsonObject = JSON.parseObject(data);
         ReceiveImageEntity entity = jsonObject.to(ReceiveImageEntity.class);
         List<ImageEntity> illusts = entity.getIllusts();
-        ADDRESS_SET.put("rank",illusts.stream().map(n -> n.getImage_urls().getMedium()).collect(Collectors.toList()));
+        ADDRESS_SET.put("rank", illusts.stream().map(n -> n.getImage_urls().getMedium()).collect(Collectors.toList()));
     }
 }
 
