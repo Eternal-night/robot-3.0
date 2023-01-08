@@ -22,6 +22,7 @@ import simbot.cycle.entity.pixiv.PixivImageInfo;
 import simbot.cycle.entity.pixiv.PixivRankImageInfo;
 import simbot.cycle.service.*;
 import simbot.cycle.util.BotUtils;
+import simbot.cycle.util.CycleUtils;
 import simbot.cycle.util.NumberUtil;
 import simbot.cycle.util.StringUtils;
 
@@ -106,7 +107,7 @@ public class PictureListen {
                 MessageReceipt receipt = event.getSource().sendBlocking("正在努力检索d(´ω｀*),但是可能被拦截哦(￣３￣)a ");
                 deleteBlock(receipt,15);
 
-                PixivImageInfo pixivIllustByTag = pixivService.getPixivIllustByTag(name,"r18");
+                PixivImageInfo pixivIllustByTag = pixivService.getPixivIllustByR18Tag(name);
                 MessagesBuilder builder = pixivService.parsePixivImgInfoByApiInfo(pixivIllustByTag);
                 MessageReceipt messageReceipt = event.getSource().sendBlocking(builder.build());
                 deleteBlock(messageReceipt,15);
@@ -174,6 +175,29 @@ public class PictureListen {
             e.printStackTrace();
             event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
         }
+
+    }
+
+
+    @Listener
+    @Filter(value = "涩图过滤{{name}}", matchType = MatchType.REGEX_MATCHES)
+    @ContentTrim
+    public void groupMsgColation(GroupMessageEvent event, @FilterValue("name") String name) {
+        String text = "命令执行失败惹|*´Å`)ﾉ ";
+        switch (name){
+            case "100":CycleUtils.setCollectionFlag(1);text="过滤数量100٩(๑>◡<๑)۶ ";break;
+            case "500":CycleUtils.setCollectionFlag(2);text="过滤数量500٩(๑>◡<๑)۶ ";break;
+            case "1000":CycleUtils.setCollectionFlag(3);text="过滤数量1000٩(๑>◡<๑)۶ ";break;
+            case "5000":CycleUtils.setCollectionFlag(4);text="过滤数量5000٩(๑>◡<๑)۶ ";break;
+            case "10000":CycleUtils.setCollectionFlag(5);text="过滤数量10000٩(๑>◡<๑)۶ ";break;
+            case "20000":CycleUtils.setCollectionFlag(6);text="过滤数量20000٩(๑>◡<๑)۶ ";break;
+            case "30000":CycleUtils.setCollectionFlag(7);text="过滤数量30000٩(๑>◡<๑)۶ ";break;
+            case "50000":CycleUtils.setCollectionFlag(8);text="过滤数量50000٩(๑>◡<๑)۶ ";break;
+            case "100000":CycleUtils.setCollectionFlag(9);text="过滤数量100000٩(๑>◡<๑)۶ ";break;
+            default:
+                break;
+        }
+        event.getSource().sendBlocking(text);
 
     }
 

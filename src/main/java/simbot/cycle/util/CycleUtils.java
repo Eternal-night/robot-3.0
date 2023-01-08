@@ -32,6 +32,40 @@ public class CycleUtils {
 
     private static List<String> CONTRABAND_LIST = new ArrayList<>();
 
+
+    private static String COLLECTION_100 = " 100users入り";
+    private static String COLLECTION_500 = " 500users入り";
+    private static String COLLECTION_1000 = " 1000users入り";
+    private static String COLLECTION_5000 = " 5000users入り";
+    private static String COLLECTION_10000 = " 10000users入り";
+    private static String COLLECTION_20000 = " 20000users入り";
+    private static String COLLECTION_30000 = " 30000users入り";
+    private static String COLLECTION_50000 = " 50000users入り";
+    private static String COLLECTION_100000 = " 100000users入り";
+
+    private static String COLLECTION = "";
+
+    private static Integer COLLECTION_FLAG = 3;
+
+    public static String getCOLLECTION() {
+        switch (COLLECTION_FLAG){
+            case 1: return COLLECTION_100;
+            case 2: return COLLECTION_500;
+            case 3: return COLLECTION_1000;
+            case 4: return COLLECTION_5000;
+            case 5: return COLLECTION_10000;
+            case 6: return COLLECTION_20000;
+            case 7: return COLLECTION_30000;
+            case 8: return COLLECTION_50000;
+            case 9: return COLLECTION_100000;
+            default: return COLLECTION;
+        }
+    }
+
+    public static void setCollectionFlag(Integer collectionFlag) {
+        COLLECTION_FLAG = collectionFlag;
+    }
+
     public static String getImageUrl() {
         switch (IMAGE_FLAG){
             case 1: return IMAGE_URL_1;

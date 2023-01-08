@@ -26,10 +26,7 @@ import simbot.cycle.entity.pixiv.PixivRankImageInfo;
 import simbot.cycle.entity.pixiv.PixivUserInfo;
 import simbot.cycle.exceptions.CycleApiException;
 import simbot.cycle.exceptions.CycleException;
-import simbot.cycle.util.FileUtil;
-import simbot.cycle.util.ImageUtil;
-import simbot.cycle.util.NumberUtil;
-import simbot.cycle.util.RandomUtil;
+import simbot.cycle.util.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -85,8 +82,7 @@ public class PixivService {
      * @param tag 标签 参数在上一层过滤好再进来
      * @return 结果对象
      */
-    public PixivImageInfo getPixivIllustByTag(String tag,String param) throws CycleException,
-            IOException {
+    public PixivImageInfo getPixivIllustByTag(String tag, String param) throws CycleException, IOException {
         //1.查询这个tag下的总结果
         PixivIllustTagGet request = new PixivIllustTagGet();
         request.setWord(tag);
@@ -158,6 +154,60 @@ public class PixivService {
 //
 //        //根据权重随机出一个元素
 //        Object obj = RandomUtil.rollObjByAddition(additionMap);
+
+        PixivImageInfo pixivImageInfo = RandomUtil.rollObjFromList(responses);
+
+        //3.获取该图片信息
+        Long pixivId = NumberUtil.toLong(pixivImageInfo.getId());
+        return getPixivImgInfoById(pixivId);
+    }
+
+
+    /**
+     * 查询R18标签
+     *
+     * @param tag
+     * @return
+     * @throws CycleException
+     * @throws IOException
+     */
+    public PixivImageInfo getPixivIllustByR18Tag(String tag) throws CycleException, IOException {
+
+        tag = tag + CycleUtils.getCOLLECTION();
+
+        //1.查询这个tag下的总结果
+        PixivIllustR18TagGet request = new PixivIllustR18TagGet();
+        request.setWord(tag);
+        request.setP(1);
+        request.setProxy(proxyService.getProxy());
+        request.doRequest();
+        //总结果数量
+        int total = request.getTotal();
+        if (0 >= total) {
+            throw new CycleException(ConstantPixiv.PIXIV_IMAGE_TAG_NO_RESULT);
+        }
+
+        //2.随机获取结果中的一条
+        //先按照指定页数算出有多少页，随机其中一页 (模拟页面，每页默认60条数据)
+        int totalPage = NumberUtil.toIntUp(total / 60 * 1.0);
+        //最多只能获取到第1000页
+        if (totalPage > 1000) {
+            totalPage = 1000;
+        }
+        //随机一个页数
+        int randomPage = RandomUtil.roll(totalPage);
+        if (0 >= randomPage) {
+            randomPage = 1;
+        }
+
+
+        //获取该页数的数据
+        request = new PixivIllustR18TagGet();
+        request.setWord(tag);
+        request.setP(randomPage);
+        request.setProxy(proxyService.getProxy());
+        request.doRequest();
+        List<PixivImageInfo> responses = request.parseImageList();
 
         PixivImageInfo pixivImageInfo = RandomUtil.rollObjFromList(responses);
 
@@ -296,7 +346,7 @@ public class PixivService {
         for (Resource resource : miraiImageList) {
             MessagesBuilder builder = new MessagesBuilder();
             builder.image(resource);
-            chain.add(bot,builder.build());
+            chain.add(bot, builder.build());
         }
         return chain.build();
     }
@@ -414,12 +464,12 @@ public class PixivService {
             } catch (FileNotFoundException fileNotFoundEx) {
                 logger.warn("pixiv多图获取失败，可能登录过期,imageInfo:{}", JSONObject.toJSONString(imageInfo), fileNotFoundEx);
                 //限制级会要求必须登录，如果不登录会抛出异常
-                if (original!=null) {
+                if (original != null) {
                     localImagesPathList.add(downloadPixivImg(original, pixivId));
                 }
             }
         } else {
-            if (original!=null) {
+            if (original != null) {
                 //单图
                 localImagesPathList.add(downloadPixivImg(original, pixivId));
             }
