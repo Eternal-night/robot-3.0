@@ -8,11 +8,21 @@ public class CycleUtils {
 
     private static String IMAGE_URL_1 = "https://iw233.cn/API/Random.php";
     private static String IMAGE_URL_2 = "https://img.paulzzh.tech/touhou/random";
-    private static String IMAGE_URL_3 = "http://img.xjh.me/random_img.php";
-    private static String IMAGE_URL_4 = "https://img.xjh.me/random_img.php";
-    private static String IMAGE_URL_5 = "https://api.yimian.xyz/img";
-    private static String IMAGE_URL_6 = "https://api.mtyqx.cn/tapi/random.php";
-    private static String IMAGE_URL_7 = "https://api.ixiaowai.cn/api/api.php";
+    private static String IMAGE_URL_3 = "https://api.ixiaowai.cn/api/api.php";
+    private static String IMAGE_URL_4 = "";
+    private static String IMAGE_URL_5 = "";
+    private static String IMAGE_URL_6 = "";
+    private static String IMAGE_URL_7 = "";
+
+    private static String IMAGE_URL_8 = "";
+
+    private static String IMAGE_URL_9 = "";
+
+    private static String IMAGE_URL_10 = "";
+
+    private static String IMAGE_URL_11 = "";
+
+    private static String IMAGE_URL_12 = "";
 
     private static String IMAGE_URL_R18 = "https://image.anosu.top/pixiv/direct?r18=1&keyword=";
 
@@ -31,7 +41,11 @@ public class CycleUtils {
             case 5: return IMAGE_URL_5;
             case 6: return IMAGE_URL_6;
             case 7: return IMAGE_URL_7;
-            case 12: return IMAGE_URL_R18;
+            case 8: return IMAGE_URL_8;
+            case 9: return IMAGE_URL_9;
+            case 10: return IMAGE_URL_10;
+            case 11: return IMAGE_URL_11;
+            case 12: return IMAGE_URL_12;
             default: return IMAGE_URL;
         }
     }

@@ -14,6 +14,7 @@ public class ConstantImage extends ConstantCommon {
     //默认的文件储存路径
     public static final String DEFAULT_IMAGE_SAVE_PATH = "data/images";
     public static final String DEFAULT_IMAGE_SAVE_PATH_R18 = "data/images/r18";
+    public static final String DEFAULT_IMAGE_SAVE_PATH_RANDOM = "data/images/RANDOM";
     //处理后的图片存放目录
     public static final String DEFAULT_IMAGE_SCALE_SAVE_PATH = "data/images/scale";
     //微博图片存放目录

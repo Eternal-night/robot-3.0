@@ -85,11 +85,13 @@ public class PixivService {
      * @param tag 标签 参数在上一层过滤好再进来
      * @return 结果对象
      */
-    public PixivImageInfo getPixivIllustByTag(String tag) throws CycleException, IOException {
+    public PixivImageInfo getPixivIllustByTag(String tag,String param) throws CycleException,
+            IOException {
         //1.查询这个tag下的总结果
         PixivIllustTagGet request = new PixivIllustTagGet();
         request.setWord(tag);
         request.setP(1);
+        request.setMode(param);
         request.setProxy(proxyService.getProxy());
         request.doRequest();
         //总结果数量
@@ -115,6 +117,7 @@ public class PixivService {
         //获取该页数的数据
         request = new PixivIllustTagGet();
         request.setWord(tag);
+        request.setMode(param);
         request.setP(randomPage);
         request.setProxy(proxyService.getProxy());
         request.doRequest();
