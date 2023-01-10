@@ -179,20 +179,20 @@ public class PictureListen {
 
 
     @Listener
-    @Filter(value = "涩图过滤{{name}}", matchType = MatchType.REGEX_MATCHES)
+    @Filter(value = "色图过滤{{name}}", matchType = MatchType.REGEX_MATCHES)
     @ContentTrim
     public void groupMsgColation(GroupMessageEvent event, @FilterValue("name") String name) {
         String text = "命令执行失败惹|*´Å`)ﾉ ";
         switch (name){
-            case "100":CycleUtils.setCollectionFlag(1);text="过滤数量100٩(๑>◡<๑)۶ ";break;
-            case "500":CycleUtils.setCollectionFlag(2);text="过滤数量500٩(๑>◡<๑)۶ ";break;
-            case "1000":CycleUtils.setCollectionFlag(3);text="过滤数量1000٩(๑>◡<๑)۶ ";break;
-            case "5000":CycleUtils.setCollectionFlag(4);text="过滤数量5000٩(๑>◡<๑)۶ ";break;
-            case "10000":CycleUtils.setCollectionFlag(5);text="过滤数量10000٩(๑>◡<๑)۶ ";break;
-            case "20000":CycleUtils.setCollectionFlag(6);text="过滤数量20000٩(๑>◡<๑)۶ ";break;
-            case "30000":CycleUtils.setCollectionFlag(7);text="过滤数量30000٩(๑>◡<๑)۶ ";break;
-            case "50000":CycleUtils.setCollectionFlag(8);text="过滤数量50000٩(๑>◡<๑)۶ ";break;
-            case "100000":CycleUtils.setCollectionFlag(9);text="过滤数量100000٩(๑>◡<๑)۶ ";break;
+            case "100":CycleUtils.setCollectionFlag(1);text="收藏数量100٩(๑>◡<๑)۶ ";break;
+            case "500":CycleUtils.setCollectionFlag(2);text="收藏数量500٩(๑>◡<๑)۶ ";break;
+            case "1000":CycleUtils.setCollectionFlag(3);text="收藏数量1000٩(๑>◡<๑)۶ ";break;
+            case "5000":CycleUtils.setCollectionFlag(4);text="收藏数量5000٩(๑>◡<๑)۶ ";break;
+            case "10000":CycleUtils.setCollectionFlag(5);text="收藏数量10000٩(๑>◡<๑)۶ ";break;
+            case "20000":CycleUtils.setCollectionFlag(6);text="收藏数量20000٩(๑>◡<๑)۶ ";break;
+            case "30000":CycleUtils.setCollectionFlag(7);text="收藏数量30000٩(๑>◡<๑)۶ ";break;
+            case "50000":CycleUtils.setCollectionFlag(8);text="收藏数量50000٩(๑>◡<๑)۶ ";break;
+            case "100000":CycleUtils.setCollectionFlag(9);text="收藏数量100000٩(๑>◡<๑)۶ ";break;
             default:
                 break;
         }

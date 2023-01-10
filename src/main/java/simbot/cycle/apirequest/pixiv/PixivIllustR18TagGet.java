@@ -54,8 +54,6 @@ public class PixivIllustR18TagGet extends BaseRequest {
      */
     private String type = "all";
 
-
-    private String lang = "zh";
     /**
      * 第几页，默认为第一页，最大1000页，如果不登录，最大为10页
      * 页书大小不可选，因为是模拟网页访问，
@@ -120,7 +118,6 @@ public class PixivIllustR18TagGet extends BaseRequest {
         param.put("s_mode", s_mode);
         param.put("mode", mode);
         param.put("type", type);
-        param.put("lang", lang);
         param.put("p", p);
     }
 }
