@@ -314,20 +314,17 @@ public class PixivService {
             List<Resource> miraiImageList = rabbitBotService.uploadMiraiImage(imageInfo.getLocalImgPathList());
             builder = rabbitBotService.parseMsgChainByImgs(miraiImageList);
         }
-
-        StringBuilder resultStr = new StringBuilder();
         if (1 < imageInfo.getPageCount()) {
-            resultStr.append("\n该Pid包含").append(imageInfo.getPageCount()).append("张图片");
+            builder.text("该Pid包含"+imageInfo.getPageCount()+"张图片\n");
         }
         if (StringUtil.isNotBlank(similarity)) {
-            resultStr.append("\n[相似度] ").append(similarity).append("%");
+            builder.text("[相似度]"+similarity+"%\n");
         }
-        resultStr.append("\n[P站id] ").append(imageInfo.getId());
-        resultStr.append("\n[标题] ").append(imageInfo.getTitle());
-        resultStr.append("\n[作者] ").append(imageInfo.getUserName());
-        resultStr.append("\n[作者id] ").append(imageInfo.getUserId());
-        resultStr.append("\n[上传时间] ").append(imageInfo.getCreateDate());
-        builder = builder.text(resultStr.toString());
+        builder.text("[P站id] "+imageInfo.getId()+"\n");
+        builder.text("[标题] "+imageInfo.getTitle()+"\n");
+        builder.text("[作者] "+imageInfo.getUserName()+"\n");
+        builder.text("[作者id] "+imageInfo.getUserId()+"\n");
+        builder.text("[上传时间] "+imageInfo.getCreateDate()+"\n");
         return builder;
     }
 

@@ -111,7 +111,6 @@ public class PictureListen {
                 MessagesBuilder builder = pixivService.parsePixivImgInfoByApiInfo(pixivIllustByTag);
                 MessageReceipt messageReceipt = event.getSource().sendBlocking(builder.build());
                 deleteBlock(messageReceipt,15);
-
             } catch (Exception e) {
                 e.printStackTrace();
                 MessageReceipt messageReceipt = event.getSource().sendBlocking("抱歉没有找到呢ε(┬┬﹏┬┬)3");
