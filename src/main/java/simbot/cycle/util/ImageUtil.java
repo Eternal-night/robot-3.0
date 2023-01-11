@@ -2,6 +2,9 @@ package simbot.cycle.util;
 
 
 import net.dreamlu.mica.core.utils.StringUtil;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import simbot.cycle.constant.ConstantImage;
 import simbot.cycle.entity.ImageInfo;
 
@@ -11,10 +14,8 @@ import javax.imageio.stream.ImageInputStream;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * create by MikuLink on 2019/12/12 17:38
@@ -129,6 +130,70 @@ public class ImageUtil {
         //返回文件路径
         return fileFullName;
     }
+
+
+    /**
+     * @description:
+     * @author: 陈杰
+     * @date: 2023/1/11 9:02
+     * @param: imageUrl
+     * @param: localUrl
+     * @param: fileName
+     * @param: proxy
+     * @return: java.lang.String
+     **/
+    public static String downloadImage(String imageUrl, String localUrl, String fileName, Proxy proxy) throws IOException {
+        if (StringUtil.isBlank(imageUrl)) {
+            throw new IOException("网络图片链接为空");
+        }
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .proxy(proxy)
+                .build();
+
+        Request build = new Request.Builder().url(imageUrl).build();
+        Response response = client.newCall(build).execute();
+        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        InputStream inStream = Objects.requireNonNull(response.body()).byteStream();
+
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, len);
+        }
+        inStream.close();
+        //把图片信息存下来，写入内存
+        byte[] data = outStream.toByteArray();
+
+        //使用网络图片的中段目录
+//            String path = imageUrl.substring(imageUrl.indexOf("n/") + 1, imageUrl.lastIndexOf("/"));
+
+        //创建本地文件
+        File result = new File(localUrl);
+        if (!result.exists()) {
+            result.mkdirs();
+        }
+
+        //如果为空，使用网络图片的名称和后缀
+        if (StringUtil.isBlank(fileName)) {
+            fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+        }
+
+        //写入图片数据
+        String fileFullName = result + File.separator + fileName;
+        FileOutputStream fileOutputStream = new FileOutputStream(fileFullName);
+        fileOutputStream.write(data);
+        fileOutputStream.flush();
+        fileOutputStream.close();
+
+        //返回文件路径
+        return fileFullName;
+    }
+
 
     /**
      * 判断文件是否存在

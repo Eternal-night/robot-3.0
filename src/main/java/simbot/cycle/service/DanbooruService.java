@@ -69,8 +69,8 @@ public class DanbooruService {
             //目标页面
             DanbooruImageGet request = new DanbooruImageGet();
             request.setDanbooruId(String.valueOf(danbooruId));
-            request.doRequest();
             request.setProxy(proxyService.getProxy());
+            request.doRequest();
             DanbooruImageInfo danbooruImageInfo = request.parseDanbooruImageInfo();
 
             if (null == danbooruImageInfo) {
@@ -107,7 +107,7 @@ public class DanbooruService {
             localUrl = localDanbooruFilePath;
         } else {
             //下载图片
-            localUrl = ImageUtil.downloadImage(null,
+            localUrl = ImageUtil.downloadImage(
                     imageUrl,
                     ConstantImage.DEFAULT_IMAGE_SAVE_PATH + File.separator + "danbooru",
                     null,

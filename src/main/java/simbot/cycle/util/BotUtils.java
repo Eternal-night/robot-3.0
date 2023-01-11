@@ -3,9 +3,14 @@ package simbot.cycle.util;
 import cn.hutool.core.util.ReUtil;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.simbot.ID;
+import love.forte.simbot.bot.Bot;
+import love.forte.simbot.bot.OriginBotManager;
 import love.forte.simbot.event.ContinuousSessionContext;
 import love.forte.simbot.event.GroupMessageEvent;
 import love.forte.simbot.message.MessageContent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public class BotUtils {
@@ -62,5 +67,22 @@ public class BotUtils {
             log.error(e.getMessage());
         }
         return null;
+    }
+
+
+    /**
+     * @description: 获取当前注册的bot列表
+     * @author: 陈杰
+     * @date: 2023/1/11 16:36
+     * @return: java.util.List<love.forte.simbot.bot.Bot>
+     **/
+    public static List<Bot> getBotList() {
+        List<Bot> bots = new ArrayList<>();
+        OriginBotManager.INSTANCE.forEach(manager -> {
+            manager.all().forEach(bot -> {
+                bots.add(bot);
+            });
+        });
+        return bots;
     }
 }

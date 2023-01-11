@@ -83,7 +83,7 @@ public class ConstantPixiv extends ConstantCommon {
     //每日色图附加信息
     public static final List<String> SETU_DAY_EX_MSG_List = Arrays.asList(
             "色图来啦",
-            "兔叽正在关心群友有没有每天看色图",
+            "刻刻帝正在关心群友有没有每天看色图",
             "有谁不喜欢色图呢",
             "色图Time!",
             "来份色图",

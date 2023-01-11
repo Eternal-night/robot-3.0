@@ -205,13 +205,22 @@ public class PictureListen {
     @Filter(value = "涩图搜索", matchType = MatchType.TEXT_EQUALS)
     @ContentTrim
     public void searchImage(ContinuousSessionContext sessionContext, GroupMessageEvent event) throws IOException {
-        event.getSource().sendBlocking("请于30s内请发送一张图片");
+        MessageReceipt messageReceipt = event.getSource().sendBlocking("请于30s内请发送一张图片");
+        deleteBlock(messageReceipt,15);
         GroupMessageEvent next = sessionContext.next(event, GroupMessageEvent.Key);
         Messages messages = next.getMessageContent().getMessages();
-        Image image = (Image) messages.get(0);
-        MessagesBuilder messagesBuilder = imageService.searchImgByImgUrl(image.getResource().getName(), null, null);
-        messagesBuilder.at(event.getAuthor().getId());
-        event.getSource().sendBlocking(messagesBuilder.build());
+        List<Image<?>> images = messages.get(Image.Key);
+        if (images.isEmpty()) {
+            MessageReceipt receipt = event.getSource().sendBlocking("没有找到图片信息，请重新触发此命令");
+            deleteBlock(receipt,15);
+        }else {
+            for (Image<?> image : images) {
+                MessagesBuilder messagesBuilder = imageService.searchImgByImgUrl(image.getResource().getName(), null, null);
+                messagesBuilder.at(event.getAuthor().getId());
+                MessageReceipt receipt = event.getSource().sendBlocking(messagesBuilder.build());
+                deleteBlock(receipt,15);
+            }
+        }
     }
 
 
