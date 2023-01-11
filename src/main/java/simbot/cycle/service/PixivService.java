@@ -358,21 +358,19 @@ public class PixivService {
         //日榜正常榜，不用r18过滤
         //展示图片
         List<Resource> miraiImageList = rabbitBotService.uploadMiraiImage(imageInfo.getLocalImagesPath());
-        MessagesBuilder result = rabbitBotService.parseMsgChainByImgs(miraiImageList);
+        MessagesBuilder builder = rabbitBotService.parseMsgChainByImgs(miraiImageList);
 
-        StringBuilder resultStr = new StringBuilder();
         if (1 < imageInfo.getPageCount()) {
-            resultStr.append("\n该Pid包含").append(imageInfo.getPageCount()).append("张图片");
+            builder.text("\n该Pid包含"+imageInfo.getPageCount()+"张图片");
         }
-        resultStr.append("\n[排名] ").append(imageInfo.getRank());
-        resultStr.append("\n[昨日排名] ").append(imageInfo.getPreviousRank());
-        resultStr.append("\n[P站id] ").append(imageInfo.getPid());
-        resultStr.append("\n[标题] ").append(imageInfo.getTitle());
-        resultStr.append("\n[作者] ").append(imageInfo.getUserName());
-        resultStr.append("\n[作者id] ").append(imageInfo.getUserId());
-        resultStr.append("\n[创建时间] ").append(imageInfo.getCreatedTime());
-        result = result.text(resultStr.toString());
-        return result;
+        builder.text("[排名] "+imageInfo.getRank()+"\n");
+        builder.text("[昨日排名] "+imageInfo.getPreviousRank()+"\n");
+        builder.text("[P站id] "+imageInfo.getPid()+"\n");
+        builder.text("[标题] "+imageInfo.getTitle()+"\n");
+        builder.text("[作者] "+imageInfo.getUserName()+"\n");
+        builder.text("[作者id] "+imageInfo.getUserId()+"\n");
+        builder.text("[创建时间] "+imageInfo.getCreatedTime()+"\n");
+        return builder;
     }
 
     /**

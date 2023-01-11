@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simbot.cycle.apirequest.BaseRequest;
 import simbot.cycle.entity.tracemoe.TracemoeSearchResult;
+import simbot.cycle.entity.tracemoe.TracemoeSearchResultNew;
 import simbot.cycle.util.HttpUtil;
 import simbot.cycle.util.HttpsUtil;
 
@@ -24,7 +25,8 @@ import java.io.IOException;
 @Setter
 public class TracemoeSearch extends BaseRequest {
     private static final Logger logger = LoggerFactory.getLogger(TracemoeSearch.class);
-    private static final String URL = "https://trace.moe/api/search";
+    //private static final String URL = "https://trace.moe/api/search";
+    private static final String URL = "https://api.trace.moe/search";
 
     /**
      * 图片链接
@@ -34,9 +36,9 @@ public class TracemoeSearch extends BaseRequest {
     //执行接口请求
     public void doRequest() throws IOException {
         //拼装参数
-        addParam();
+        String s = URL + "?cutBorders&url=" + imgUrl;
         //请求
-        byte[] resultBytes = HttpsUtil.doGet(URL + HttpUtil.parseUrlEncode(param));
+        byte[] resultBytes = HttpsUtil.doGet(s);
         body = new String(resultBytes);
 
         //记录接口请求与返回日志
@@ -49,10 +51,10 @@ public class TracemoeSearch extends BaseRequest {
     }
 
     //获取解析后的结果对象
-    public TracemoeSearchResult getEntity() {
+    public TracemoeSearchResultNew getEntity() {
         if (StringUtil.isEmpty(body)) {
             return null;
         }
-        return JSONObject.parseObject(body, TracemoeSearchResult.class);
+        return JSONObject.parseObject(body, TracemoeSearchResultNew.class);
     }
 }

@@ -1,6 +1,7 @@
 package simbot.cycle.service;
 
 import com.alibaba.fastjson.JSONObject;
+import love.forte.simbot.message.MessagesBuilder;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageUtils;
 import org.slf4j.Logger;
@@ -10,7 +11,9 @@ import simbot.cycle.apirequest.tracemoe.TracemoeSearch;
 import simbot.cycle.constant.ConstantAnime;
 import simbot.cycle.constant.ConstantImage;
 import simbot.cycle.entity.tracemoe.TracemoeSearchDoc;
+import simbot.cycle.entity.tracemoe.TracemoeSearchDocNew;
 import simbot.cycle.entity.tracemoe.TracemoeSearchResult;
+import simbot.cycle.entity.tracemoe.TracemoeSearchResultNew;
 import simbot.cycle.util.EncodingUtil;
 import simbot.cycle.util.ImageUtil;
 
@@ -35,19 +38,19 @@ public class TracemoeService {
      * @param imgUrl 网络图片链接
      * @return 返回消息
      */
-    public TracemoeSearchDoc searchAnimeFromTracemoe(String imgUrl) {
+    public List<TracemoeSearchDocNew> searchAnimeFromTracemoe(String imgUrl) {
         try {
             TracemoeSearch request = new TracemoeSearch();
             request.setImgUrl(imgUrl);
             request.doRequest();
-            TracemoeSearchResult result = request.getEntity();
+            TracemoeSearchResultNew result = request.getEntity();
 
-            List<TracemoeSearchDoc> docList = result.getDocs();
+            List<TracemoeSearchDocNew> docList = result.getResult();
             if (null == docList || docList.size() <= 0) {
                 return null;
             }
-            //只取第一个信息
-            return docList.get(0);
+
+            return docList;
         } catch (IOException ioEx) {
             logger.error(ConstantAnime.TRACE_MOE_API_REQUEST_ERROR, ioEx);
             return null;
@@ -82,22 +85,15 @@ public class TracemoeService {
         }
     }
 
-    public MessageChain parseResultMsg(TracemoeSearchDoc doc) {
-        MessageChain result = MessageUtils.newChain();
-
-        StringBuilder resultStr = new StringBuilder();
-        resultStr.append("[相似度] ").append((doc.getSimilarity() * 100)).append("%")
-                .append("\n[番名] ").append(doc.getAnime())
-                .append("\n[档期] ").append(doc.getSeason())
-                .append("\n[集数] ").append(doc.getEpisode())
-                .append("\n[图片位置] ").append(doc.getAt()).append("秒")
-                .append("\n[文件名] ").append(doc.getFilename())
-                .append("\n[番名(日文)] ").append(doc.getTitle_native())
-                .append("\n[番名(英文)] ").append(doc.getTitle_english())
-                .append("\n[番名(中文)] ").append(doc.getTitle_chinese());
-
-        result = result.plus(resultStr.toString());
-
-        return result;
+    public MessagesBuilder parseResultMsg(TracemoeSearchDocNew doc) {
+        MessagesBuilder builder = new MessagesBuilder();
+        builder.text("[相似度] "+(doc.getSimilarity() * 100)+"%")
+                .text("\n[匹配的 Anilist ID] "+doc.getAnilist())
+                .text("\n[文件名] "+doc.getFilename())
+                .text("\n[集数] "+doc.getEpisode())
+                .text("\n[图片位置] "+doc.getFrom()+"秒")
+                .text("\n[图片预览地址] "+doc.getImage())
+                .text("\n[视频预览地址] "+doc.getVideo());
+        return builder;
     }
 }

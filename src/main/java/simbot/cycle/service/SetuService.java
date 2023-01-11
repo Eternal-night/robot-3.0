@@ -78,8 +78,7 @@ public class SetuService {
      */
     public String randOneSetuPid() throws IOException {
         //元素少于1/6的时候，重新加载
-        if (CollectionUtil.isEmpty(ConstantPixiv.List_SETU_PID)
-                || ConstantPixiv.List_SETU_PID.size() < ConstantPixiv.SETU_PID_LIST_MAX_SIZE / 6) {
+        if (CollectionUtil.isEmpty(ConstantPixiv.List_SETU_PID) || ConstantPixiv.List_SETU_PID.size() < ConstantPixiv.SETU_PID_LIST_MAX_SIZE / 6) {
             this.loadFile();
         }
         //随机色图

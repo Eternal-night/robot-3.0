@@ -54,7 +54,7 @@ public class JobTimeRabbit {
     @Autowired
     private MirlKoiService mirlKoiService;
 
-    @Scheduled(cron = "0 0 * * * ?")
+   // @Scheduled(cron = "0 0 * * * ?")
     public void execute() {
         //刷新当前时间
         hour_now = DateUtil.getHour();
